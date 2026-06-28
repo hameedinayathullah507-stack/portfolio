@@ -264,30 +264,32 @@ animate();
 
 
 /* ═══════════════════════════════════════════════════════════════
-   PROFILE IMAGE SCROLL-TRAVEL & EXIT ANIMATION ENGINE (CINEMATIC LERP)
+   PROFILE IMAGE SCROLL-TRAVEL ENGINE (100% GPU TRANSFORMS)
    ═══════════════════════════════════════════════════════════════ */
 
 (function initImageTravel() {
   const wrapper   = document.getElementById('hero-img-wrapper');
   const slotA     = document.getElementById('hero-img-slot');
   const slotB     = document.getElementById('about-img-slot');
+  const heroSect  = document.getElementById('hero');
   const aboutSect = document.getElementById('about');
-  if (!wrapper || !slotA || !slotB || !aboutSect) return;
+  if (!wrapper || !slotA || !slotB || !heroSect || !aboutSect) return;
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  function easeInOutCubic(t) {
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  // Smoothstep easing — zero acceleration at start/end for silky transitions
+  function smoothstep(t) {
+    return t * t * (3 - 2 * t);
   }
 
   function lerp(start, end, amt) {
     return (1 - amt) * start + amt * end;
   }
 
-  let targetProgress     = 0;
-  let currentProgress    = 0;
-  let targetExitProgress = 0;
-  let currentExitProgress= 0;
+  let targetProgress      = 0;
+  let currentProgress     = 0;
+  let targetExitProgress  = 0;
+  let currentExitProgress = 0;
 
   function updateTargets() {
     const scrollY  = window.scrollY;
@@ -299,10 +301,11 @@ animate();
       return;
     }
 
-    const rectBPage   = slotB.getBoundingClientRect().top + scrollY;
-    const startScroll = 0;
-    const targetY     = (window.innerHeight - 380) / 2;
-    const endScroll   = Math.max(100, rectBPage - Math.max(40, targetY));
+    // Start when user has scrolled ~12% into Hero section
+    const startScroll = heroSect.offsetHeight * 0.12;
+    // Complete when About section is ~92% visible in viewport
+    const aboutTopPage = aboutSect.getBoundingClientRect().top + scrollY;
+    const endScroll    = aboutTopPage - window.innerHeight * 0.08;
 
     const rawProgress = (scrollY - startScroll) / (endScroll - startScroll);
     targetProgress    = Math.max(0, Math.min(1, rawProgress));
@@ -340,15 +343,14 @@ animate();
       return;
     }
 
-    // ── LERP INTERPOLATION ────────────────────────────────────
-    currentProgress     = lerp(currentProgress, targetProgress, 0.1);
-    currentExitProgress = lerp(currentExitProgress, targetExitProgress, 0.1);
+    // ── LERP INTERPOLATION (Apple/Linear fluid inertia) ───────
+    currentProgress     = lerp(currentProgress, targetProgress, 0.08);
+    currentExitProgress = lerp(currentExitProgress, targetExitProgress, 0.08);
 
-    // Snap if virtually equal
-    if (Math.abs(currentProgress - targetProgress) < 0.001) currentProgress = targetProgress;
-    if (Math.abs(currentExitProgress - targetExitProgress) < 0.001) currentExitProgress = targetExitProgress;
+    if (Math.abs(currentProgress - targetProgress) < 0.0005) currentProgress = targetProgress;
+    if (Math.abs(currentExitProgress - targetExitProgress) < 0.0005) currentExitProgress = targetExitProgress;
 
-    const eased = easeInOutCubic(currentProgress);
+    const eased = smoothstep(currentProgress);
 
     // ── STATE 1: Settled in Hero ──────────────────────────────
     if (currentProgress <= 0) {
@@ -361,7 +363,7 @@ animate();
       wrapper.style.opacity   = '1';
       wrapper.style.transform = '';
     }
-    // ── STATE 3: Settled in About & Exit ──────────────────────
+    // ── STATE 3: Settled in About & Exit handling ──────────────
     else if (currentProgress >= 1) {
       if (wrapper.parentElement !== slotB) slotB.appendChild(wrapper);
       if (wrapper.classList.contains('img-travelling')) {
@@ -381,7 +383,7 @@ animate();
         wrapper.style.transform = '';
       }
     }
-    // ── STATE 2: Traveling between Hero and About ──────────────
+    // ── STATE 2: GPU-Only Travel between Hero and About ─────────
     else {
       if (wrapper.parentElement !== slotA) slotA.appendChild(wrapper);
       if (!wrapper.classList.contains('img-travelling')) wrapper.classList.add('img-travelling');
@@ -389,21 +391,18 @@ animate();
       const rectA = slotA.getBoundingClientRect();
       const rectB = slotB.getBoundingClientRect();
 
-      const curX = rectA.left + (rectB.left - rectA.left) * eased;
-      const curY = rectA.top  + (rectB.top  - rectA.top)  * eased;
-      const curW = rectA.width + (rectB.width - rectA.width) * eased;
-      const curH = rectA.height + (rectB.height - rectA.height) * eased;
+      // 100% GPU transform coordinates relative to top-left (0,0)
+      const targetX = rectA.left + (rectB.left - rectA.left) * eased;
+      const targetY = rectA.top  + (rectB.top  - rectA.top)  * eased;
 
-      // Cinematic arc: slight elevation, subtle scale boost in mid-flight
-      const arcFactor = Math.sin(eased * Math.PI);
-      const curRot   = 2.8 * arcFactor * -1;
-      const flightScale = 1 + 0.03 * arcFactor;
+      // Progressive gradual scaling & max 2.0 degree rotation arc
+      const baseScale   = 1.0 + ((rectB.width / rectA.width) - 1.0) * eased;
+      const flightBoost = 1.0 + 0.02 * Math.sin(eased * Math.PI);
+      const curScale    = baseScale * flightBoost;
+      const curRot      = -2.0 * Math.sin(eased * Math.PI);
 
-      wrapper.style.left      = `${curX}px`;
-      wrapper.style.top       = `${curY}px`;
-      wrapper.style.width     = `${curW}px`;
-      wrapper.style.height    = `${curH}px`;
-      wrapper.style.transform = `scale(${flightScale}) rotate(${curRot}deg)`;
+      // ONLY updating GPU transform — zero reflows on top/left/width/height
+      wrapper.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) scale(${curScale}) rotate(${curRot}deg)`;
       wrapper.style.opacity   = '1';
     }
 
@@ -416,5 +415,6 @@ animate();
 
   requestAnimationFrame(render);
 })();
+
 
 

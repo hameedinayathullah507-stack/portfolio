@@ -922,9 +922,11 @@ h1, h2, h3, h4, .nav-brand {
 .about-layout {
   display: flex;
   align-items: center;
-  gap: 3rem;
+  justify-content: center;
+  gap: 3.5rem;
   width: 100%;
-  max-width: 900px;
+  max-width: 950px;
+  margin: 0 auto;
 }
 
 #about-img-slot {
@@ -938,6 +940,7 @@ h1, h2, h3, h4, .nav-brand {
   flex: 1;
   text-align: left;
   max-width: 100%;
+  margin: 0;
 }
 
 @media (max-width: 768px) {
@@ -948,6 +951,7 @@ h1, h2, h3, h4, .nav-brand {
   .about-layout {
     flex-direction: column;
     align-items: center;
+    gap: 2rem;
   }
   #about-img-slot {
     width: 240px;
@@ -978,10 +982,11 @@ h1, h2, h3, h4, .nav-brand {
 #hero-img-wrapper {
   width: 100%;
   height: 100%;
-  will-change: transform;
+  will-change: transform, opacity;
   animation: imgFloat 5s ease-in-out infinite;
   backface-visibility: hidden;
   transform-origin: center center;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 /* JS-driven fixed travel state between sections */
@@ -991,7 +996,7 @@ h1, h2, h3, h4, .nav-brand {
   z-index: 999;
   margin: 0 !important;
   pointer-events: none;
-  will-change: transform;
+  will-change: transform, opacity;
   backface-visibility: hidden;
   transition: none !important;
   box-shadow:
@@ -999,4 +1004,5 @@ h1, h2, h3, h4, .nav-brand {
     0 0 80px rgba(139, 92, 246, 0.12),
     0 24px 60px rgba(0, 0, 0, 0.5);
 }
+
 

@@ -264,14 +264,15 @@ animate();
 
 
 /* ═══════════════════════════════════════════════════════════════
-   PROFILE IMAGE SCROLL-TRAVEL ANIMATION
+   PROFILE IMAGE SCROLL-TRAVEL & EXIT ANIMATION ENGINE
    ═══════════════════════════════════════════════════════════════ */
 
 (function initImageTravel() {
   const wrapper   = document.getElementById('hero-img-wrapper');
   const slotA     = document.getElementById('hero-img-slot');
   const slotB     = document.getElementById('about-img-slot');
-  if (!wrapper || !slotA || !slotB) return;
+  const aboutSect = document.getElementById('about');
+  if (!wrapper || !slotA || !slotB || !aboutSect) return;
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -281,48 +282,80 @@ animate();
 
   function onScroll() {
     const scrollY   = window.scrollY;
-    const rectBPage = slotB.getBoundingClientRect().top + scrollY;
-    
-    const startScroll = 20;
-    const endScroll   = Math.max(150, rectBPage - window.innerHeight * 0.4);
+    const isMobile  = window.innerWidth < 768;
+
+    // ── MOBILE BEHAVIOR: Disable travel, use clean inline slots ──
+    if (isMobile) {
+      if (wrapper.classList.contains('img-travelling')) {
+        wrapper.classList.remove('img-travelling');
+        wrapper.style.cssText = '';
+      }
+      const aboutTop = aboutSect.getBoundingClientRect().top;
+      if (aboutTop < window.innerHeight * 0.5) {
+        if (wrapper.parentElement !== slotB) slotB.appendChild(wrapper);
+      } else {
+        if (wrapper.parentElement !== slotA) slotA.appendChild(wrapper);
+      }
+      wrapper.style.animation = 'imgFloat 5s ease-in-out infinite';
+      wrapper.style.opacity   = '1';
+      wrapper.style.transform = '';
+      return;
+    }
+
+    // ── DESKTOP BEHAVIOR: 100% Scroll-Linked GPU Travel ────────
+    const rectBPage   = slotB.getBoundingClientRect().top + scrollY;
+    const startScroll = 0;
+    const targetY     = (window.innerHeight - 380) / 2;
+    const endScroll   = Math.max(100, rectBPage - Math.max(40, targetY));
 
     const rawProgress = (scrollY - startScroll) / (endScroll - startScroll);
     const progress    = Math.max(0, Math.min(1, rawProgress));
     const eased       = easeInOutCubic(progress);
 
-    // ── STATE 1: Settled in Hero (Top of page) ────────────────
+    // ── STATE 1: Settled in Hero ──────────────────────────────
     if (progress <= 0) {
-      if (wrapper.parentElement !== slotA) {
-        slotA.appendChild(wrapper);
-      }
+      if (wrapper.parentElement !== slotA) slotA.appendChild(wrapper);
       if (wrapper.classList.contains('img-travelling')) {
         wrapper.classList.remove('img-travelling');
         wrapper.style.cssText = '';
-        wrapper.style.animation = 'imgFloat 5s ease-in-out infinite';
       }
+      wrapper.style.animation = 'imgFloat 5s ease-in-out infinite';
+      wrapper.style.opacity   = '1';
+      wrapper.style.transform = '';
       return;
     }
 
-    // ── STATE 3: Settled in About (Scrolled down) ──────────────
+    // ── STATE 3: Settled in About & Exit handling ──────────────
     if (progress >= 1) {
-      if (wrapper.parentElement !== slotB) {
-        slotB.appendChild(wrapper);
-      }
+      if (wrapper.parentElement !== slotB) slotB.appendChild(wrapper);
       if (wrapper.classList.contains('img-travelling')) {
         wrapper.classList.remove('img-travelling');
         wrapper.style.cssText = '';
+      }
+
+      // Check exit beyond About (scrolling down to Skills, Projects, etc.)
+      const aboutBottom = aboutSect.getBoundingClientRect().bottom + scrollY;
+      const fadeStart   = aboutBottom - window.innerHeight * 0.6;
+      const fadeEnd     = aboutBottom - window.innerHeight * 0.1;
+
+      if (scrollY > fadeStart) {
+        const exitProgress = Math.min(1, Math.max(0, (scrollY - fadeStart) / (fadeEnd - fadeStart)));
+        const exitOpacity  = 1 - exitProgress;
+        const exitScale    = 1 - 0.15 * exitProgress;
+        wrapper.style.animation = 'none';
+        wrapper.style.opacity   = exitOpacity.toString();
+        wrapper.style.transform = `scale(${exitScale})`;
+      } else {
         wrapper.style.animation = 'imgFloatSubtle 8s ease-in-out infinite';
+        wrapper.style.opacity   = '1';
+        wrapper.style.transform = '';
       }
       return;
     }
 
     // ── STATE 2: Traveling between Hero and About ──────────────
-    if (wrapper.parentElement !== slotA) {
-      slotA.appendChild(wrapper);
-    }
-    if (!wrapper.classList.contains('img-travelling')) {
-      wrapper.classList.add('img-travelling');
-    }
+    if (wrapper.parentElement !== slotA) slotA.appendChild(wrapper);
+    if (!wrapper.classList.contains('img-travelling')) wrapper.classList.add('img-travelling');
 
     const rectA = slotA.getBoundingClientRect();
     const rectB = slotB.getBoundingClientRect();
@@ -332,18 +365,29 @@ animate();
     const curW = rectA.width + (rectB.width - rectA.width) * eased;
     const curH = rectA.height + (rectB.height - rectA.height) * eased;
     
-    const isMobile = window.innerWidth < 768;
-    const rotMax   = isMobile ? 1.5 : 2.5;
-    const curRot   = rotMax * Math.sin(eased * Math.PI) * -1;
+    const curRot = 2.5 * Math.sin(eased * Math.PI) * -1;
 
     wrapper.style.left      = `${curX}px`;
     wrapper.style.top       = `${curY}px`;
     wrapper.style.width     = `${curW}px`;
     wrapper.style.height    = `${curH}px`;
     wrapper.style.transform = `rotate(${curRot}deg)`;
+    wrapper.style.opacity   = '1';
+  }
+
+  let ticking = false;
+  function requestTick() {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        onScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
   }
 
   window.addEventListener('load', onScroll);
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', requestTick, { passive: true });
   window.addEventListener('resize', onScroll);
 })();
+

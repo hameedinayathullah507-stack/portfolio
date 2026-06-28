@@ -49,13 +49,11 @@
             <a href="#contact" class="magnetic-btn secondary-btn glass-btn">Contact Me</a>
           </div>
         </div>
-        <div class="hero-image-slot" id="hero-img-slot">
-          <div class="hero-image-wrapper glass-card tilt-card" id="hero-img-wrapper">
-            <div class="hero-image-inner">
-              <img src="./portfolio.png" alt="Hameed Inayathullah" class="hero-person-img" id="hero-img" />
-            </div>
-            <div class="hero-image-glow" id="hero-img-glow"></div>
+        <div class="hero-image-wrapper glass-card tilt-card" id="hero-img-wrapper">
+          <div class="hero-image-inner">
+            <img src="./portfolio.png" alt="Hameed Inayathullah" class="hero-person-img" id="hero-img" />
           </div>
+          <div class="hero-image-glow" id="hero-img-glow"></div>
         </div>
       </div>
       <div class="scroll-indicator">
@@ -69,8 +67,13 @@
     <section class="section reveal" id="about">
       <h2 class="section-title">About Me</h2>
       <div class="about-layout">
-        <!-- Invisible slot — holds space for the traveling profile image -->
-        <div id="about-img-slot" aria-hidden="true"></div>
+        <!-- Dedicated profile image wrapper for About section -->
+        <div class="about-image-wrapper glass-card tilt-card" id="about-img-wrapper">
+          <div class="about-image-inner">
+            <img src="./portfolio.png" alt="Hameed Inayathullah" class="about-person-img" id="about-img" />
+          </div>
+          <div class="about-image-glow" id="about-img-glow"></div>
+        </div>
         <div class="about-card glass-card tilt-card">
           <p>I’m a Computer Science student passionate about frontend development, interactive UI design, and immersive
             digital experiences. I enjoy creating modern responsive websites with smooth animations and creative user

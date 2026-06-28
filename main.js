@@ -264,20 +264,16 @@ animate();
 
 
 /* ═══════════════════════════════════════════════════════════════
-   PROFILE IMAGE SCROLL-TRAVEL ENGINE (PERFECT TIMING & PLACE)
+   ABOUT PROFILE IMAGE SCROLL-LINKED REVEAL ENGINE
    ═══════════════════════════════════════════════════════════════ */
 
-(function initImageTravel() {
-  const wrapper   = document.getElementById('hero-img-wrapper');
-  const slotA     = document.getElementById('hero-img-slot');
-  const slotB     = document.getElementById('about-img-slot');
-  const heroSect  = document.getElementById('hero');
+(function initAboutImageReveal() {
+  const wrapper   = document.getElementById('about-img-wrapper');
   const aboutSect = document.getElementById('about');
-  if (!wrapper || !slotA || !slotB || !heroSect || !aboutSect) return;
+  if (!wrapper || !aboutSect) return;
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  // Smoothstep easing — zero acceleration at start/end for silky transitions
   function smoothstep(t) {
     return t * t * (3 - 2 * t);
   }
@@ -286,138 +282,43 @@ animate();
     return (1 - amt) * start + amt * end;
   }
 
-  let targetProgress      = 0;
-  let currentProgress     = 0;
-  let targetExitProgress  = 0;
-  let currentExitProgress = 0;
+  let targetProgress  = 0;
+  let currentProgress = 0;
 
   function updateTargets() {
-    const scrollY  = window.scrollY;
-    const isMobile = window.innerWidth < 768;
+    const rect = aboutSect.getBoundingClientRect();
+    // Start when About section reaches ~30% of viewport (top is at 70% viewport height)
+    const startView = window.innerHeight * 0.70;
+    const endView   = window.innerHeight * 0.30;
 
-    if (isMobile) {
-      targetProgress = 0;
-      targetExitProgress = 0;
-      return;
-    }
-
-    const heroH        = heroSect.offsetHeight;
-    const startScroll  = heroH * 0.10; // Start at 10% Hero scroll
-    
-    // Perfect place calculation: end scroll is when slotB reaches vertical center of viewport
-    const slotBPageY   = slotB.getBoundingClientRect().top + scrollY;
-    const idealViewY   = Math.max(80, (window.innerHeight - 380) / 2);
-    const endScroll    = slotBPageY - idealViewY;
-
-    const rawProgress = (scrollY - startScroll) / (endScroll - startScroll);
-    targetProgress    = Math.max(0, Math.min(1, rawProgress));
-
-    const aboutBottom = aboutSect.getBoundingClientRect().bottom + scrollY;
-    const fadeStart   = aboutBottom - window.innerHeight * 0.6;
-    const fadeEnd     = aboutBottom - window.innerHeight * 0.1;
-
-    if (scrollY > fadeStart) {
-      targetExitProgress = Math.min(1, Math.max(0, (scrollY - fadeStart) / (fadeEnd - fadeStart)));
-    } else {
-      targetExitProgress = 0;
-    }
+    const rawP = (startView - rect.top) / (startView - endView);
+    targetProgress = Math.max(0, Math.min(1, rawP));
   }
 
   function render() {
-    const isMobile = window.innerWidth < 768;
-
-    // ── MOBILE FALLBACK ────────────────────────────────────────
-    if (isMobile) {
-      if (wrapper.classList.contains('img-travelling')) {
-        wrapper.classList.remove('img-travelling');
-        wrapper.style.cssText = '';
-      }
-      const aboutTop = aboutSect.getBoundingClientRect().top;
-      if (aboutTop < window.innerHeight * 0.5) {
-        if (wrapper.parentElement !== slotB) slotB.appendChild(wrapper);
-      } else {
-        if (wrapper.parentElement !== slotA) slotA.appendChild(wrapper);
-      }
-      wrapper.style.animation = 'imgFloat 5s ease-in-out infinite';
-      wrapper.style.opacity   = '1';
-      wrapper.style.transform = '';
-      requestAnimationFrame(render);
-      return;
+    currentProgress = lerp(currentProgress, targetProgress, 0.1);
+    if (Math.abs(currentProgress - targetProgress) < 0.0005) {
+      currentProgress = targetProgress;
     }
-
-    // ── LERP INTERPOLATION (Responsive Apple/Linear fluid inertia) ──
-    currentProgress     = lerp(currentProgress, targetProgress, 0.14);
-    currentExitProgress = lerp(currentExitProgress, targetExitProgress, 0.14);
-
-    if (Math.abs(currentProgress - targetProgress) < 0.0001) currentProgress = targetProgress;
-    if (Math.abs(currentExitProgress - targetExitProgress) < 0.0001) currentExitProgress = targetExitProgress;
 
     const eased = smoothstep(currentProgress);
 
-    // ── STATE 1: Settled in Hero ──────────────────────────────
-    if (currentProgress <= 0) {
-      if (wrapper.parentElement !== slotA) slotA.appendChild(wrapper);
-      if (wrapper.classList.contains('img-travelling')) {
-        wrapper.classList.remove('img-travelling');
-        wrapper.style.cssText = '';
-      }
-      wrapper.style.animation = 'imgFloat 5s ease-in-out infinite';
-      wrapper.style.opacity   = '1';
+    if (currentProgress < 0.999) {
+      const translateX = -45 * (1 - eased);
+      const translateY = 45 * (1 - eased);
+      const scale      = 0.9 + 0.1 * eased;
+      const rotate     = 3.0 * (1 - eased);
+      const blur       = 10 * (1 - eased);
+
+      wrapper.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale}) rotate(${rotate}deg)`;
+      wrapper.style.filter    = `blur(${blur}px)`;
+      wrapper.style.opacity   = eased.toString();
+      wrapper.style.animation = 'none';
+    } else {
       wrapper.style.transform = '';
-    }
-    // ── STATE 3: Settled in About & Exit handling ──────────────
-    else if (currentProgress >= 1) {
-      if (wrapper.parentElement !== slotB) slotB.appendChild(wrapper);
-      if (wrapper.classList.contains('img-travelling')) {
-        wrapper.classList.remove('img-travelling');
-        wrapper.style.cssText = '';
-      }
-
-      if (currentExitProgress > 0) {
-        const exitOpacity = 1 - currentExitProgress;
-        const exitScale   = 1 - 0.15 * currentExitProgress;
-        wrapper.style.animation = 'none';
-        wrapper.style.opacity   = exitOpacity.toString();
-        wrapper.style.transform = `scale(${exitScale})`;
-      } else {
-        wrapper.style.animation = 'imgFloatSubtle 8s ease-in-out infinite';
-        wrapper.style.opacity   = '1';
-        wrapper.style.transform = '';
-      }
-    }
-    // ── STATE 2: GPU-Only Travel between Hero and About ─────────
-    else {
-      if (wrapper.parentElement !== slotA) slotA.appendChild(wrapper);
-      if (!wrapper.classList.contains('img-travelling')) wrapper.classList.add('img-travelling');
-
-      const scrollY = window.scrollY;
-      const scrollX = window.scrollX;
-
-      // Absolute page coordinates for 100% precision placement
-      const rectA = slotA.getBoundingClientRect();
-      const rectB = slotB.getBoundingClientRect();
-
-      const pageAX = rectA.left + scrollX;
-      const pageAY = rectA.top  + scrollY;
-      const pageBX = rectB.left + scrollX;
-      const pageBY = rectB.top  + scrollY;
-
-      // Interpolate in page space, then convert to fixed viewport coordinates
-      const pageTargetX = pageAX + (pageBX - pageAX) * eased;
-      const pageTargetY = pageAY + (pageBY - pageAY) * eased;
-
-      const viewportX = pageTargetX - scrollX;
-      const viewportY = pageTargetY - scrollY;
-
-      // Progressive gradual scaling & max 2.0 degree rotation arc
-      const baseScale   = 1.0 + ((rectB.width / rectA.width) - 1.0) * eased;
-      const flightBoost = 1.0 + 0.015 * Math.sin(eased * Math.PI);
-      const curScale    = baseScale * flightBoost;
-      const curRot      = -2.0 * Math.sin(eased * Math.PI);
-
-      // ONLY updating GPU transform — zero reflows
-      wrapper.style.transform = `translate3d(${viewportX}px, ${viewportY}px, 0) scale(${curScale}) rotate(${curRot}deg)`;
+      wrapper.style.filter    = '';
       wrapper.style.opacity   = '1';
+      wrapper.style.animation = 'imgFloatSubtle 8s ease-in-out infinite';
     }
 
     requestAnimationFrame(render);
@@ -429,6 +330,7 @@ animate();
 
   requestAnimationFrame(render);
 })();
+
 
 
 

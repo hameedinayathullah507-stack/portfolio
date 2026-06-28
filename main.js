@@ -264,7 +264,7 @@ animate();
 
 
 /* ═══════════════════════════════════════════════════════════════
-   PROFILE IMAGE SCROLL-TRAVEL ENGINE (100% GPU TRANSFORMS)
+   PROFILE IMAGE SCROLL-TRAVEL ENGINE (PERFECT TIMING & PLACE)
    ═══════════════════════════════════════════════════════════════ */
 
 (function initImageTravel() {
@@ -301,11 +301,13 @@ animate();
       return;
     }
 
-    // Start when user has scrolled ~12% into Hero section
-    const startScroll = heroSect.offsetHeight * 0.12;
-    // Complete when About section is ~92% visible in viewport
-    const aboutTopPage = aboutSect.getBoundingClientRect().top + scrollY;
-    const endScroll    = aboutTopPage - window.innerHeight * 0.08;
+    const heroH        = heroSect.offsetHeight;
+    const startScroll  = heroH * 0.10; // Start at 10% Hero scroll
+    
+    // Perfect place calculation: end scroll is when slotB reaches vertical center of viewport
+    const slotBPageY   = slotB.getBoundingClientRect().top + scrollY;
+    const idealViewY   = Math.max(80, (window.innerHeight - 380) / 2);
+    const endScroll    = slotBPageY - idealViewY;
 
     const rawProgress = (scrollY - startScroll) / (endScroll - startScroll);
     targetProgress    = Math.max(0, Math.min(1, rawProgress));
@@ -343,12 +345,12 @@ animate();
       return;
     }
 
-    // ── LERP INTERPOLATION (Apple/Linear fluid inertia) ───────
-    currentProgress     = lerp(currentProgress, targetProgress, 0.08);
-    currentExitProgress = lerp(currentExitProgress, targetExitProgress, 0.08);
+    // ── LERP INTERPOLATION ────────────────────────────────────
+    currentProgress     = lerp(currentProgress, targetProgress, 0.09);
+    currentExitProgress = lerp(currentExitProgress, targetExitProgress, 0.09);
 
-    if (Math.abs(currentProgress - targetProgress) < 0.0005) currentProgress = targetProgress;
-    if (Math.abs(currentExitProgress - targetExitProgress) < 0.0005) currentExitProgress = targetExitProgress;
+    if (Math.abs(currentProgress - targetProgress) < 0.0003) currentProgress = targetProgress;
+    if (Math.abs(currentExitProgress - targetExitProgress) < 0.0003) currentExitProgress = targetExitProgress;
 
     const eased = smoothstep(currentProgress);
 
@@ -388,21 +390,33 @@ animate();
       if (wrapper.parentElement !== slotA) slotA.appendChild(wrapper);
       if (!wrapper.classList.contains('img-travelling')) wrapper.classList.add('img-travelling');
 
+      const scrollY = window.scrollY;
+      const scrollX = window.scrollX;
+
+      // Absolute page coordinates for 100% precision placement
       const rectA = slotA.getBoundingClientRect();
       const rectB = slotB.getBoundingClientRect();
 
-      // 100% GPU transform coordinates relative to top-left (0,0)
-      const targetX = rectA.left + (rectB.left - rectA.left) * eased;
-      const targetY = rectA.top  + (rectB.top  - rectA.top)  * eased;
+      const pageAX = rectA.left + scrollX;
+      const pageAY = rectA.top  + scrollY;
+      const pageBX = rectB.left + scrollX;
+      const pageBY = rectB.top  + scrollY;
+
+      // Interpolate in page space, then convert to fixed viewport coordinates
+      const pageTargetX = pageAX + (pageBX - pageAX) * eased;
+      const pageTargetY = pageAY + (pageBY - pageAY) * eased;
+
+      const viewportX = pageTargetX - scrollX;
+      const viewportY = pageTargetY - scrollY;
 
       // Progressive gradual scaling & max 2.0 degree rotation arc
       const baseScale   = 1.0 + ((rectB.width / rectA.width) - 1.0) * eased;
-      const flightBoost = 1.0 + 0.02 * Math.sin(eased * Math.PI);
+      const flightBoost = 1.0 + 0.015 * Math.sin(eased * Math.PI);
       const curScale    = baseScale * flightBoost;
       const curRot      = -2.0 * Math.sin(eased * Math.PI);
 
-      // ONLY updating GPU transform — zero reflows on top/left/width/height
-      wrapper.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) scale(${curScale}) rotate(${curRot}deg)`;
+      // ONLY updating GPU transform — zero reflows
+      wrapper.style.transform = `translate3d(${viewportX}px, ${viewportY}px, 0) scale(${curScale}) rotate(${curRot}deg)`;
       wrapper.style.opacity   = '1';
     }
 
@@ -415,6 +429,7 @@ animate();
 
   requestAnimationFrame(render);
 })();
+
 
 
 

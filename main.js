@@ -264,7 +264,7 @@ animate();
 
 
 /* ═══════════════════════════════════════════════════════════════
-   PROFILE IMAGE SCROLL-TRAVEL & EXIT ANIMATION ENGINE
+   PROFILE IMAGE SCROLL-TRAVEL & EXIT ANIMATION ENGINE (CINEMATIC LERP)
    ═══════════════════════════════════════════════════════════════ */
 
 (function initImageTravel() {
@@ -280,11 +280,48 @@ animate();
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
 
-  function onScroll() {
-    const scrollY   = window.scrollY;
-    const isMobile  = window.innerWidth < 768;
+  function lerp(start, end, amt) {
+    return (1 - amt) * start + amt * end;
+  }
 
-    // ── MOBILE BEHAVIOR: Disable travel, use clean inline slots ──
+  let targetProgress     = 0;
+  let currentProgress    = 0;
+  let targetExitProgress = 0;
+  let currentExitProgress= 0;
+
+  function updateTargets() {
+    const scrollY  = window.scrollY;
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+      targetProgress = 0;
+      targetExitProgress = 0;
+      return;
+    }
+
+    const rectBPage   = slotB.getBoundingClientRect().top + scrollY;
+    const startScroll = 0;
+    const targetY     = (window.innerHeight - 380) / 2;
+    const endScroll   = Math.max(100, rectBPage - Math.max(40, targetY));
+
+    const rawProgress = (scrollY - startScroll) / (endScroll - startScroll);
+    targetProgress    = Math.max(0, Math.min(1, rawProgress));
+
+    const aboutBottom = aboutSect.getBoundingClientRect().bottom + scrollY;
+    const fadeStart   = aboutBottom - window.innerHeight * 0.6;
+    const fadeEnd     = aboutBottom - window.innerHeight * 0.1;
+
+    if (scrollY > fadeStart) {
+      targetExitProgress = Math.min(1, Math.max(0, (scrollY - fadeStart) / (fadeEnd - fadeStart)));
+    } else {
+      targetExitProgress = 0;
+    }
+  }
+
+  function render() {
+    const isMobile = window.innerWidth < 768;
+
+    // ── MOBILE FALLBACK ────────────────────────────────────────
     if (isMobile) {
       if (wrapper.classList.contains('img-travelling')) {
         wrapper.classList.remove('img-travelling');
@@ -299,21 +336,22 @@ animate();
       wrapper.style.animation = 'imgFloat 5s ease-in-out infinite';
       wrapper.style.opacity   = '1';
       wrapper.style.transform = '';
+      requestAnimationFrame(render);
       return;
     }
 
-    // ── DESKTOP BEHAVIOR: 100% Scroll-Linked GPU Travel ────────
-    const rectBPage   = slotB.getBoundingClientRect().top + scrollY;
-    const startScroll = 0;
-    const targetY     = (window.innerHeight - 380) / 2;
-    const endScroll   = Math.max(100, rectBPage - Math.max(40, targetY));
+    // ── LERP INTERPOLATION ────────────────────────────────────
+    currentProgress     = lerp(currentProgress, targetProgress, 0.1);
+    currentExitProgress = lerp(currentExitProgress, targetExitProgress, 0.1);
 
-    const rawProgress = (scrollY - startScroll) / (endScroll - startScroll);
-    const progress    = Math.max(0, Math.min(1, rawProgress));
-    const eased       = easeInOutCubic(progress);
+    // Snap if virtually equal
+    if (Math.abs(currentProgress - targetProgress) < 0.001) currentProgress = targetProgress;
+    if (Math.abs(currentExitProgress - targetExitProgress) < 0.001) currentExitProgress = targetExitProgress;
+
+    const eased = easeInOutCubic(currentProgress);
 
     // ── STATE 1: Settled in Hero ──────────────────────────────
-    if (progress <= 0) {
+    if (currentProgress <= 0) {
       if (wrapper.parentElement !== slotA) slotA.appendChild(wrapper);
       if (wrapper.classList.contains('img-travelling')) {
         wrapper.classList.remove('img-travelling');
@@ -322,26 +360,18 @@ animate();
       wrapper.style.animation = 'imgFloat 5s ease-in-out infinite';
       wrapper.style.opacity   = '1';
       wrapper.style.transform = '';
-      return;
     }
-
-    // ── STATE 3: Settled in About & Exit handling ──────────────
-    if (progress >= 1) {
+    // ── STATE 3: Settled in About & Exit ──────────────────────
+    else if (currentProgress >= 1) {
       if (wrapper.parentElement !== slotB) slotB.appendChild(wrapper);
       if (wrapper.classList.contains('img-travelling')) {
         wrapper.classList.remove('img-travelling');
         wrapper.style.cssText = '';
       }
 
-      // Check exit beyond About (scrolling down to Skills, Projects, etc.)
-      const aboutBottom = aboutSect.getBoundingClientRect().bottom + scrollY;
-      const fadeStart   = aboutBottom - window.innerHeight * 0.6;
-      const fadeEnd     = aboutBottom - window.innerHeight * 0.1;
-
-      if (scrollY > fadeStart) {
-        const exitProgress = Math.min(1, Math.max(0, (scrollY - fadeStart) / (fadeEnd - fadeStart)));
-        const exitOpacity  = 1 - exitProgress;
-        const exitScale    = 1 - 0.15 * exitProgress;
+      if (currentExitProgress > 0) {
+        const exitOpacity = 1 - currentExitProgress;
+        const exitScale   = 1 - 0.15 * currentExitProgress;
         wrapper.style.animation = 'none';
         wrapper.style.opacity   = exitOpacity.toString();
         wrapper.style.transform = `scale(${exitScale})`;
@@ -350,44 +380,41 @@ animate();
         wrapper.style.opacity   = '1';
         wrapper.style.transform = '';
       }
-      return;
     }
-
     // ── STATE 2: Traveling between Hero and About ──────────────
-    if (wrapper.parentElement !== slotA) slotA.appendChild(wrapper);
-    if (!wrapper.classList.contains('img-travelling')) wrapper.classList.add('img-travelling');
+    else {
+      if (wrapper.parentElement !== slotA) slotA.appendChild(wrapper);
+      if (!wrapper.classList.contains('img-travelling')) wrapper.classList.add('img-travelling');
 
-    const rectA = slotA.getBoundingClientRect();
-    const rectB = slotB.getBoundingClientRect();
+      const rectA = slotA.getBoundingClientRect();
+      const rectB = slotB.getBoundingClientRect();
 
-    const curX = rectA.left + (rectB.left - rectA.left) * eased;
-    const curY = rectA.top  + (rectB.top  - rectA.top)  * eased;
-    const curW = rectA.width + (rectB.width - rectA.width) * eased;
-    const curH = rectA.height + (rectB.height - rectA.height) * eased;
-    
-    const curRot = 2.5 * Math.sin(eased * Math.PI) * -1;
+      const curX = rectA.left + (rectB.left - rectA.left) * eased;
+      const curY = rectA.top  + (rectB.top  - rectA.top)  * eased;
+      const curW = rectA.width + (rectB.width - rectA.width) * eased;
+      const curH = rectA.height + (rectB.height - rectA.height) * eased;
 
-    wrapper.style.left      = `${curX}px`;
-    wrapper.style.top       = `${curY}px`;
-    wrapper.style.width     = `${curW}px`;
-    wrapper.style.height    = `${curH}px`;
-    wrapper.style.transform = `rotate(${curRot}deg)`;
-    wrapper.style.opacity   = '1';
-  }
+      // Cinematic arc: slight elevation, subtle scale boost in mid-flight
+      const arcFactor = Math.sin(eased * Math.PI);
+      const curRot   = 2.8 * arcFactor * -1;
+      const flightScale = 1 + 0.03 * arcFactor;
 
-  let ticking = false;
-  function requestTick() {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        onScroll();
-        ticking = false;
-      });
-      ticking = true;
+      wrapper.style.left      = `${curX}px`;
+      wrapper.style.top       = `${curY}px`;
+      wrapper.style.width     = `${curW}px`;
+      wrapper.style.height    = `${curH}px`;
+      wrapper.style.transform = `scale(${flightScale}) rotate(${curRot}deg)`;
+      wrapper.style.opacity   = '1';
     }
+
+    requestAnimationFrame(render);
   }
 
-  window.addEventListener('load', onScroll);
-  window.addEventListener('scroll', requestTick, { passive: true });
-  window.addEventListener('resize', onScroll);
+  window.addEventListener('load', updateTargets);
+  window.addEventListener('scroll', updateTargets, { passive: true });
+  window.addEventListener('resize', updateTargets);
+
+  requestAnimationFrame(render);
 })();
+
 

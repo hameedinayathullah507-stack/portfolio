@@ -1,547 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hameed Inayathullah — Frontend Developer</title>
-  <meta name="description" content="Portfolio of Hameed Inayathullah — Frontend Developer crafting immersive digital experiences with modern web technologies." />
+  <title>Hameed Inayathullah - Frontend Developer</title>
+  <link rel="stylesheet" href="./style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="./style.css" />
 </head>
+
 <body>
+  <!-- Mouse Follow Glow -->
+  <div id="mouse-glow"></div>
 
-  <!-- ══ Background Layers ════════════════════════════════════ -->
-  <div class="noise-overlay" aria-hidden="true"></div>
-  <div class="grid-overlay"  aria-hidden="true"></div>
-  <div id="mouse-glow"       aria-hidden="true"></div>
-  <div class="aurora-bg"     aria-hidden="true">
-    <div class="aurora aurora-1"></div>
-    <div class="aurora aurora-2"></div>
-    <div class="aurora aurora-3"></div>
-  </div>
-  <canvas id="bg-canvas"    aria-hidden="true"></canvas>
+  <!-- Three.js Canvas Container -->
+  <canvas id="bg-canvas"></canvas>
 
-  <!-- ══ Navigation ══════════════════════════════════════════ -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-brand">
-        <span class="brand-dot" aria-hidden="true"></span>
-        <span>HI</span>
-      </a>
-      <div class="nav-links" id="nav-links" role="list">
-        <a href="#about"      class="nav-link" data-section="about"      role="listitem">About</a>
-        <a href="#skills"     class="nav-link" data-section="skills"     role="listitem">Skills</a>
-        <a href="#projects"   class="nav-link" data-section="projects"   role="listitem">Projects</a>
-        <a href="#experience" class="nav-link" data-section="experience" role="listitem">Journey</a>
-        <a href="#contact"    class="nav-link" data-section="contact"    role="listitem">Contact</a>
-      </div>
-      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-      <a href="#about"      class="mob-link">About</a>
-      <a href="#skills"     class="mob-link">Skills</a>
-      <a href="#projects"   class="mob-link">Projects</a>
-      <a href="#experience" class="mob-link">Journey</a>
-      <a href="#contact"    class="mob-link">Contact</a>
+  <nav class="navbar glass-nav">
+    <div class="nav-brand">Portfolio</div>
+    <div class="nav-links">
+      <a href="#about" class="nav-link">About</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#experience" class="nav-link">Experience</a>
+      <a href="#contact" class="nav-link">Contact</a>
     </div>
   </nav>
 
-  <!-- ══ Main ═════════════════════════════════════════════════ -->
-  <main>
+  <!-- Overlay UI Content -->
+  <main class="content-container">
 
-    <!-- ── Hero ─────────────────────────────────────────────── -->
-    <section class="section hero-section" id="hero">
-      <div class="hero-wrap">
-
+    <!-- Section 1: Hero -->
+    <section class="section hero-section reveal" id="hero">
+      <div class="hero-content">
         <div class="hero-text">
-          <p class="hero-eyebrow ri" data-a="fade-up" data-d="0">Hello, I'm</p>
-
-          <h1 class="hero-name" id="hero-name" aria-label="Hameed Inayathullah">
-            <span class="hn-word">Hameed</span>
-            <span class="hn-word hn-accent">Inayathullah</span>
-          </h1>
-
-          <p class="hero-role ri" data-a="fade-up" data-d="500">
-            <span class="typing-el" aria-live="polite"></span><span class="cursor" aria-hidden="true"></span>
-          </p>
-
-          <p class="hero-desc ri" data-a="fade-up" data-d="700">
-            Frontend Developer crafting immersive digital experiences. Passionate about building modern web experiences with clean code and dynamic design.
-          </p>
-
-          <div class="hero-actions ri" data-a="fade-up" data-d="900">
-            <a href="#projects" class="mag-btn btn-p" id="btn-projects">
-              <span>View Projects</span>
-              <i class="fas fa-arrow-right" aria-hidden="true"></i>
-            </a>
-            <a href="#contact" class="mag-btn btn-s" id="btn-contact">
-              <span>Contact Me</span>
-            </a>
+          <h2 class="hero-greeting">Hello, I'm</h2>
+          <h1 class="hero-name glow-text">Hameed Inayathullah</h1>
+          <h3 class="hero-role"><span class="typing-text"></span><span class="cursor">&nbsp;</span></h3>
+          <p class="hero-description">Frontend Developer Crafting Immersive Digital Experiences. Passionate about
+            building modern web experiences with clean code and dynamic design.</p>
+          <div class="hero-buttons">
+            <a href="#projects" class="magnetic-btn primary-btn glass-btn">View Projects</a>
+            <a href="#contact" class="magnetic-btn secondary-btn glass-btn">Contact Me</a>
           </div>
         </div>
-
-        <div class="hero-img-wrap ri" data-a="fade-left" data-d="200">
-          <div class="hero-frame">
-            <span class="h-ring h-ring-1" aria-hidden="true"></span>
-            <span class="h-ring h-ring-2" aria-hidden="true"></span>
-            <span class="h-ring h-ring-3" aria-hidden="true"></span>
-            <div class="h-photo">
-              <img src="./portfolio.png" alt="Hameed Inayathullah" loading="eager" />
-            </div>
-            <div class="h-glow" aria-hidden="true"></div>
+        <div class="hero-image-wrapper glass-card tilt-card">
+          <div class="hero-image-inner">
+            <img src="./portfolio.png" alt="Hameed Inayathullah" class="hero-person-img" />
           </div>
+          <div class="hero-image-glow"></div>
         </div>
-
       </div>
-
-      <div class="scroll-ind" aria-label="Scroll down">
-        <span class="si-text">Scroll</span>
-        <div class="si-track"><div class="si-dot"></div></div>
+      <div class="scroll-indicator">
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
       </div>
     </section>
 
-    <!-- ── About ─────────────────────────────────────────────── -->
-    <section class="section" id="about">
-      <div class="sec-head">
-        <span class="sec-label ri" data-a="fade-up" data-d="0">WHO I AM</span>
-        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">About Me</h2>
-      </div>
-
-      <div class="about-grid">
-
-        <div class="about-img-col ri" data-a="clip-right" data-d="200">
-          <div class="about-frame">
-            <div class="about-border" aria-hidden="true"></div>
-            <img src="./portfolio.png" alt="Hameed Inayathullah" class="about-photo" loading="lazy" />
-            <div class="about-badge">
-              <i class="fas fa-code" aria-hidden="true"></i>
-              <span>Frontend Developer</span>
-            </div>
-            <div class="about-deco-dot d1" aria-hidden="true"></div>
-            <div class="about-deco-dot d2" aria-hidden="true"></div>
-          </div>
-        </div>
-
-        <div class="about-content">
-          <p class="about-lead ri" data-a="fade-up" data-d="100">
-            I'm <strong>Hameed Inayathullah</strong> — a dedicated Computer Science student and self-driven Frontend Developer who transforms ideas into interactive, visually compelling web experiences.
-          </p>
-          <p class="about-body ri" data-a="fade-up" data-d="200">
-            My journey started with curiosity about how beautiful websites are built. That curiosity became a passion — and that passion drives me to build real-world projects that marry clean code with stunning UI design.
-          </p>
-          <div class="about-spec ri" data-a="fade-up" data-d="300">
-            <h3 class="spec-label">What I Specialise In</h3>
-            <ul class="spec-list">
-              <li><i class="fas fa-check-circle" aria-hidden="true"></i> Responsive Web Design &amp; Mobile-First Development</li>
-              <li><i class="fas fa-check-circle" aria-hidden="true"></i> Interactive UI with Smooth Animations &amp; Motion</li>
-              <li><i class="fas fa-check-circle" aria-hidden="true"></i> Modern CSS: Glassmorphism, 3D Effects &amp; Visual Polish</li>
-              <li><i class="fas fa-check-circle" aria-hidden="true"></i> Clean, Semantic HTML &amp; Accessible Markup</li>
-            </ul>
-          </div>
-          <div class="about-goals ri" data-a="fade-up" data-d="400">
-            <h3 class="spec-label">Currently Learning</h3>
-            <div class="learn-chips">
-              <span><i class="fab fa-python" aria-hidden="true"></i> Python Full Stack</span>
-              <span><i class="fas fa-robot"  aria-hidden="true"></i> AI Integration</span>
-              <span><i class="fas fa-database" aria-hidden="true"></i> Backend Basics</span>
-            </div>
-          </div>
-        </div>
-
+    <!-- Section 2: About -->
+    <section class="section reveal" id="about">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-card glass-card tilt-card">
+        <p>I’m a Computer Science student passionate about frontend development, interactive UI design, and immersive
+          digital experiences. I enjoy creating modern responsive websites with smooth animations and creative user
+          interfaces.</p>
       </div>
     </section>
 
-    <!-- ── Skills ─────────────────────────────────────────────── -->
-    <section class="section" id="skills">
-      <div class="sec-head">
-        <span class="sec-label ri" data-a="fade-up" data-d="0">EXPERTISE</span>
-        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">My Skills</h2>
-      </div>
-
-      <div class="skills-wrap">
-
-        <div class="skill-group ri" data-a="fade-up" data-d="100">
-          <p class="grp-label"><i class="fas fa-code" aria-hidden="true"></i> Frontend</p>
-          <div class="skill-row">
-            <div class="skill-card" data-color="#e34f26" id="sk-html">
-              <i class="fab fa-html5" aria-hidden="true"></i><span>HTML5</span>
-            </div>
-            <div class="skill-card" data-color="#1572b6" id="sk-css">
-              <i class="fab fa-css3-alt" aria-hidden="true"></i><span>CSS3</span>
-            </div>
-            <div class="skill-card" data-color="#f0db4f" id="sk-js">
-              <i class="fab fa-js" aria-hidden="true"></i><span>JavaScript</span>
-            </div>
-            <div class="skill-card" data-color="#7952b3" id="sk-bs">
-              <i class="fab fa-bootstrap" aria-hidden="true"></i><span>Bootstrap</span>
-            </div>
+    <!-- Section 3: Skills -->
+    <section class="section reveal" id="skills">
+      <h2 class="section-title">My Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-category glass-card tilt-card">
+          <h3><i class="fas fa-code"></i> Frontend</h3>
+          <div class="skill-tags">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>Bootstrap</span>
           </div>
         </div>
-
-        <div class="skill-group ri" data-a="fade-up" data-d="200">
-          <p class="grp-label"><i class="fas fa-terminal" aria-hidden="true"></i> Programming</p>
-          <div class="skill-row">
-            <div class="skill-card" data-color="#3776ab" id="sk-py">
-              <i class="fab fa-python" aria-hidden="true"></i><span>Python</span>
-            </div>
+        <div class="skill-category glass-card tilt-card">
+          <h3><i class="fas fa-terminal"></i> Programming</h3>
+          <div class="skill-tags">
+            <span>Python</span>
           </div>
         </div>
-
-        <div class="skill-group ri" data-a="fade-up" data-d="300">
-          <p class="grp-label"><i class="fas fa-tools" aria-hidden="true"></i> Tools</p>
-          <div class="skill-row">
-            <div class="skill-card" data-color="#f05032" id="sk-git">
-              <i class="fab fa-git-alt" aria-hidden="true"></i><span>Git</span>
-            </div>
-            <div class="skill-card" data-color="#e8e8e8" id="sk-github">
-              <i class="fab fa-github" aria-hidden="true"></i><span>GitHub</span>
-            </div>
-            <div class="skill-card" data-color="#007acc" id="sk-vsc">
-              <i class="fas fa-code" aria-hidden="true"></i><span>VS Code</span>
-            </div>
+        <div class="skill-category glass-card tilt-card">
+          <h3><i class="fas fa-tools"></i> Tools</h3>
+          <div class="skill-tags">
+            <span>Git</span>
+            <span>GitHub</span>
+            <span>VS Code</span>
+            <span>Antigravity</span>
           </div>
         </div>
-
-        <div class="skill-group ri" data-a="fade-up" data-d="400">
-          <p class="grp-label"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Currently Learning</p>
-          <div class="skill-row">
-            <div class="skill-card learning" data-color="#61dafb" id="sk-react">
-              <i class="fab fa-react" aria-hidden="true"></i><span>React</span>
-            </div>
-            <div class="skill-card learning" data-color="#339933" id="sk-node">
-              <i class="fab fa-node-js" aria-hidden="true"></i><span>Node.js</span>
-            </div>
-            <div class="skill-card learning" data-color="#a78bfa" id="sk-ai">
-              <i class="fas fa-robot" aria-hidden="true"></i><span>AI / ML</span>
-            </div>
+        <div class="skill-category glass-card tilt-card">
+          <h3><i class="fas fa-paint-brush"></i> Design</h3>
+          <div class="skill-tags">
+            <span>Responsive Design</span>
+            <span>UI/UX</span>
+            <span>Interactive Animation</span>
           </div>
         </div>
-
       </div>
     </section>
 
-    <!-- ── Projects ───────────────────────────────────────────── -->
-    <section class="section" id="projects">
-      <div class="sec-head">
-        <span class="sec-label ri" data-a="fade-up" data-d="0">PORTFOLIO</span>
-        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">Featured Projects</h2>
-      </div>
+    <!-- Section 4: Projects -->
+    <section class="section reveal" id="projects">
+      <h2 class="section-title">Featured Projects</h2>
+      <div class="projects-grid">
 
-      <div class="proj-grid">
-
-        <article class="proj-card ri" data-a="scale-in" data-d="0" id="pc-carvilla">
-          <div class="pc-img car-bg">
-            <i class="fas fa-car" aria-hidden="true"></i>
-            <div class="pc-overlay">
-              <a href="https://warm-druid-b6551a.netlify.app/" target="_blank" rel="noopener noreferrer" class="ov-link" id="cv-demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-              <a href="https://github.com/hameedinayathullah507-stack/CARVILLA"    target="_blank" rel="noopener noreferrer" class="ov-link ov-gh"   id="cv-gh"  ><i class="fab fa-github"></i> GitHub</a>
-            </div>
+        <div class="project-card glass-card tilt-card">
+          <div class="project-image" style="background: linear-gradient(135deg, #0f172a, #1e293b);">
+            <div class="project-overlay"><i class="fas fa-car fa-3x" style="color:var(--accent-blue);"></i></div>
           </div>
-          <div class="pc-body">
-            <span class="pc-cat">Web App</span>
+          <div class="project-info">
             <h3>Carvilla</h3>
             <p>Interactive car booking website with responsive modern UI and smooth user experience.</p>
-            <div class="pc-tags"><span>HTML</span><span>CSS</span><span>Bootstrap</span></div>
-          </div>
-        </article>
-
-        <article class="proj-card ri" data-a="scale-in" data-d="120" id="pc-turf">
-          <div class="pc-img turf-bg">
-            <i class="fas fa-futbol" aria-hidden="true"></i>
-            <div class="pc-overlay">
-              <a href="https://hameedinayathullah507-stack.github.io/playbook-turf/" target="_blank" rel="noopener noreferrer" class="ov-link" id="tf-demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-              <a href="https://github.com/hameedinayathullah507-stack/playbook-turf"  target="_blank" rel="noopener noreferrer" class="ov-link ov-gh"   id="tf-gh"  ><i class="fab fa-github"></i> GitHub</a>
+            <div class="tech-stack">
+              <span>HTML</span><span>CSS</span><span>Bootstrap</span>
+            </div>
+            <div class="project-links">
+              <a href="https://warm-druid-b6551a.netlify.app/" target="_blank"
+                class="magnetic-btn primary-btn glass-btn btn-small">Live Demo</a>
+              <a href="https://github.com/hameedinayathullah507-stack/CARVILLA" target="_blank"
+                class="magnetic-btn secondary-btn glass-btn btn-small"><i class="fab fa-github"></i> GitHub</a>
             </div>
           </div>
-          <div class="pc-body">
-            <span class="pc-cat">Booking Platform</span>
+        </div>
+
+        <div class="project-card glass-card tilt-card" style="transition-delay: 100ms">
+          <div class="project-image" style="background: linear-gradient(135deg, #064e3b, #0f766e);">
+            <div class="project-overlay"><i class="fas fa-futbol fa-3x" style="color:var(--accent-cyan);"></i></div>
+          </div>
+          <div class="project-info">
             <h3>Playbook Turf</h3>
-            <p>Sports turf booking platform with clean interface and fully responsive design.</p>
-            <div class="pc-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
-          </div>
-        </article>
-
-        <article class="proj-card ri" data-a="scale-in" data-d="240" id="pc-student">
-          <div class="pc-img student-bg">
-            <i class="fas fa-users" aria-hidden="true"></i>
-            <div class="pc-overlay">
-              <a href="https://hameedinayathullah507-stack.github.io/Student-Form/" target="_blank" rel="noopener noreferrer" class="ov-link" id="sf-demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-              <a href="https://github.com/hameedinayathullah507-stack/Student-Form" target="_blank" rel="noopener noreferrer" class="ov-link ov-gh"   id="sf-gh"  ><i class="fab fa-github"></i> GitHub</a>
+            <p>Sports turf booking platform with clean interface and responsive design.</p>
+            <div class="tech-stack">
+              <span>HTML</span><span>CSS</span><span>JS</span>
+            </div>
+            <div class="project-links">
+              <a href="https://hameedinayathullah507-stack.github.io/playbook-turf/" target="_blank"
+                class="magnetic-btn primary-btn glass-btn btn-small">Live Demo</a>
+              <a href="https://github.com/hameedinayathullah507-stack/playbook-turf" target="_blank"
+                class="magnetic-btn secondary-btn glass-btn btn-small"><i class="fab fa-github"></i> GitHub</a>
             </div>
           </div>
-          <div class="pc-body">
-            <span class="pc-cat">Management System</span>
-            <h3>Student Management</h3>
-            <p>Student data management system focused on organisation and frontend functionality.</p>
-            <div class="pc-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
-          </div>
-        </article>
+        </div>
 
-        <article class="proj-card ri" data-a="scale-in" data-d="360" id="pc-notes">
-          <div class="pc-img notes-bg">
-            <i class="fas fa-book" aria-hidden="true"></i>
-            <div class="pc-overlay">
-              <a href="https://hameedinayathullah507-stack.github.io/Note-Wallet/" target="_blank" rel="noopener noreferrer" class="ov-link" id="nw-demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-              <a href="https://github.com/hameedinayathullah507-stack/Note-Wallet"  target="_blank" rel="noopener noreferrer" class="ov-link ov-gh"   id="nw-gh"  ><i class="fab fa-github"></i> GitHub</a>
+        <div class="project-card glass-card tilt-card" style="transition-delay: 200ms">
+          <div class="project-image" style="background: linear-gradient(135deg, #4c1d95, #6d28d9);">
+            <div class="project-overlay"><i class="fas fa-users fa-3x" style="color:var(--accent-purple);"></i></div>
+          </div>
+          <div class="project-info">
+            <h3>Student Management System</h3>
+            <p>Student data management system focused on organization and frontend functionality.</p>
+            <div class="tech-stack">
+              <span>HTML</span><span>CSS</span><span>JS</span>
+            </div>
+            <div class="project-links">
+              <a href="https://hameedinayathullah507-stack.github.io/Student-Form/" target="_blank"
+                class="magnetic-btn primary-btn glass-btn btn-small">Live Demo</a>
+              <a href="https://github.com/hameedinayathullah507-stack/Student-Form" target="_blank"
+                class="magnetic-btn secondary-btn glass-btn btn-small"><i class="fab fa-github"></i> GitHub</a>
             </div>
           </div>
-          <div class="pc-body">
-            <span class="pc-cat">Productivity App</span>
+        </div>
+
+        <div class="project-card glass-card tilt-card" style="transition-delay: 300ms">
+          <div class="project-image" style="background: linear-gradient(135deg, #7c2d12, #9a3412);">
+            <div class="project-overlay"><i class="fas fa-book fa-3x" style="color:#fb923c;"></i></div>
+          </div>
+          <div class="project-info">
             <h3>Note Wallet</h3>
-            <p>Modern note management application with clean UI and organised workflow.</p>
-            <div class="pc-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+            <p>Modern note management application with clean UI and organized workflow.</p>
+            <div class="tech-stack">
+              <span>HTML</span><span>CSS</span><span>JS</span>
+            </div>
+            <div class="project-links">
+              <a href="https://hameedinayathullah507-stack.github.io/Note-Wallet/" target="_blank"
+                class="magnetic-btn primary-btn glass-btn btn-small">Live Demo</a>
+              <a href="https://github.com/hameedinayathullah507-stack/Note-Wallet" target="_blank"
+                class="magnetic-btn secondary-btn glass-btn btn-small"><i class="fab fa-github"></i> GitHub</a>
+            </div>
           </div>
-        </article>
+        </div>
 
       </div>
     </section>
 
-    <!-- ── AI Projects ────────────────────────────────────────── -->
-    <section class="section" id="ai-projects">
-      <div class="sec-head">
-        <span class="sec-label ri" data-a="fade-up" data-d="0">AI POWERED</span>
-        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">AI Projects</h2>
-      </div>
-      <div class="proj-grid">
+    <!-- Section: AI Projects -->
+    <section class="section reveal" id="ai-projects">
+      <h2 class="section-title">AI Projects</h2>
+      <div class="projects-grid">
 
-        <article class="proj-card ri" data-a="scale-in" data-d="0" id="pc-chatbot">
-          <div class="pc-img ai1-bg">
-            <i class="fas fa-robot" aria-hidden="true"></i>
-            <div class="pc-overlay">
-              <span class="ov-link ov-disabled">🚧 Coming Soon</span>
-              <span class="ov-link ov-gh ov-disabled"><i class="fab fa-github"></i> Soon</span>
-            </div>
+        <div class="project-card glass-card tilt-card ai-glow">
+          <div class="project-image" style="background: linear-gradient(135deg, #1e1b4b, #312e81);">
+            <div class="project-overlay"><i class="fas fa-robot fa-3x" style="color:var(--accent-cyan);"></i></div>
           </div>
-          <div class="pc-body">
-            <span class="pc-cat ai-cat">AI Project</span>
+          <div class="project-info">
             <h3>AI Chatbot</h3>
-            <p>An intelligent conversational chatbot powered by AI with real-time responses and a sleek modern interface.</p>
-            <div class="pc-tags"><span>Python</span><span>AI/ML</span><span>HTML</span><span>JS</span></div>
-          </div>
-        </article>
-
-        <article class="proj-card ri" data-a="scale-in" data-d="150" id="pc-imggen">
-          <div class="pc-img ai2-bg">
-            <i class="fas fa-image" aria-hidden="true"></i>
-            <div class="pc-overlay">
-              <span class="ov-link ov-disabled">🚧 Coming Soon</span>
-              <span class="ov-link ov-gh ov-disabled"><i class="fab fa-github"></i> Soon</span>
+            <p>An intelligent conversational chatbot powered by AI, featuring real-time responses and a sleek modern
+              interface.</p>
+            <div class="tech-stack">
+              <span>Python</span><span>AI/ML</span><span>HTML</span><span>CSS</span><span>JS</span>
+            </div>
+            <div class="project-links">
+              <span class="magnetic-btn primary-btn glass-btn btn-small coming-soon-btn" title="Coming Soon">🚧 Coming Soon</span>
+              <span class="magnetic-btn secondary-btn glass-btn btn-small coming-soon-btn" title="Coming Soon"><i class="fab fa-github"></i> Soon</span>
             </div>
           </div>
-          <div class="pc-body">
-            <span class="pc-cat ai-cat">AI Project</span>
+        </div>
+
+        <div class="project-card glass-card tilt-card ai-glow" style="transition-delay: 100ms">
+          <div class="project-image" style="background: linear-gradient(135deg, #0c4a6e, #0369a1);">
+            <div class="project-overlay"><i class="fas fa-brain fa-3x" style="color:#a78bfa;"></i></div>
+          </div>
+          <div class="project-info">
             <h3>AI Image Generator</h3>
             <p>A creative AI-powered image generation tool that transforms text prompts into stunning visual art.</p>
-            <div class="pc-tags"><span>Python</span><span>AI</span><span>API</span><span>JS</span></div>
+            <div class="tech-stack">
+              <span>Python</span><span>AI</span><span>API</span><span>JS</span>
+            </div>
+            <div class="project-links">
+              <span class="magnetic-btn primary-btn glass-btn btn-small coming-soon-btn" title="Coming Soon">🚧 Coming Soon</span>
+              <span class="magnetic-btn secondary-btn glass-btn btn-small coming-soon-btn" title="Coming Soon"><i class="fab fa-github"></i> Soon</span>
+            </div>
           </div>
-        </article>
+        </div>
 
       </div>
     </section>
 
-    <!-- ── Journey ────────────────────────────────────────────── -->
-    <section class="section" id="experience">
-      <div class="sec-head">
-        <span class="sec-label ri" data-a="fade-up" data-d="0">MY PATH</span>
-        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">My Journey</h2>
+    <!-- Section 5 & 6: Education & Experience -->
+    <section class="section reveal" id="experience">
+      <h2 class="section-title">My Journey</h2>
+      <div class="journey-container">
+
+        <div class="timeline">
+          <div class="timeline-item glass-card tilt-card">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h4>Education</h4>
+              <h3>Bachelor of Computer Science</h3>
+              <p class="timeline-date">Current Student</p>
+              <p>Focus on frontend development and modern web technologies.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item glass-card tilt-card">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h4>Experience</h4>
+              <h3>Learning Frontend Development</h3>
+              <p>Building projects, exploring immersive UI, and improving creative coding skills to build
+                next-generation interfaces.</p>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-      <div class="journey" id="journey">
-        <!-- Glowing spine -->
-        <div class="j-spine" aria-hidden="true">
-          <div class="j-spine-fill" id="j-fill"></div>
-        </div>
-
-        <!-- 1 — LEFT -->
-        <div class="j-row">
-          <div class="j-cell j-left">
-            <div class="j-card glass-card ri" data-a="fade-right" data-d="0">
-              <span class="j-year">2022</span>
-              <div class="j-head"><span class="j-ico">🚀</span><h3>Started Web Development</h3></div>
-              <p>Took the first step into the world of web development, discovering my passion for creating things on the internet.</p>
-            </div>
-          </div>
-          <div class="j-cell j-mid">
-            <div class="j-node"><div class="j-pulse"></div></div>
-          </div>
-          <div class="j-cell j-right"></div>
-        </div>
-
-        <!-- 2 — RIGHT -->
-        <div class="j-row">
-          <div class="j-cell j-left"></div>
-          <div class="j-cell j-mid">
-            <div class="j-node"><div class="j-pulse"></div></div>
-          </div>
-          <div class="j-cell j-right">
-            <div class="j-card glass-card ri" data-a="fade-left" data-d="0">
-              <span class="j-year">2022</span>
-              <div class="j-head"><span class="j-ico">💡</span><h3>Learned HTML, CSS &amp; Responsive Design</h3></div>
-              <p>Mastered the core building blocks — semantic HTML5, modern CSS layouts, and mobile-first responsive design.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 3 — LEFT -->
-        <div class="j-row">
-          <div class="j-cell j-left">
-            <div class="j-card glass-card ri" data-a="fade-right" data-d="0">
-              <span class="j-year">2023</span>
-              <div class="j-head"><span class="j-ico">⚡</span><h3>Mastered Modern JavaScript (ES6+)</h3></div>
-              <p>Deepened JavaScript skills — ES6+ features, DOM manipulation, async/await, and interactive UI patterns.</p>
-            </div>
-          </div>
-          <div class="j-cell j-mid">
-            <div class="j-node"><div class="j-pulse"></div></div>
-          </div>
-          <div class="j-cell j-right"></div>
-        </div>
-
-        <!-- 4 — RIGHT -->
-        <div class="j-row">
-          <div class="j-cell j-left"></div>
-          <div class="j-cell j-mid">
-            <div class="j-node"><div class="j-pulse"></div></div>
-          </div>
-          <div class="j-cell j-right">
-            <div class="j-card glass-card ri" data-a="fade-left" data-d="0">
-              <span class="j-year">2023</span>
-              <div class="j-head"><span class="j-ico">🎨</span><h3>Focused on Frontend &amp; UI/UX Design</h3></div>
-              <p>Specialised in crafting premium interfaces — animations, glassmorphism, 3D effects, and immersive visual experiences.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 5 — LEFT -->
-        <div class="j-row">
-          <div class="j-cell j-left">
-            <div class="j-card glass-card ri" data-a="fade-right" data-d="0">
-              <span class="j-year">2024</span>
-              <div class="j-head"><span class="j-ico">📂</span><h3>Built Multiple Real-World Projects</h3></div>
-              <p>Designed and deployed real projects — Carvilla, Playbook Turf, Student Management System, and Note Wallet.</p>
-            </div>
-          </div>
-          <div class="j-cell j-mid">
-            <div class="j-node"><div class="j-pulse"></div></div>
-          </div>
-          <div class="j-cell j-right"></div>
-        </div>
-
-        <!-- 6 — RIGHT -->
-        <div class="j-row">
-          <div class="j-cell j-left"></div>
-          <div class="j-cell j-mid">
-            <div class="j-node active"><div class="j-pulse"></div></div>
-          </div>
-          <div class="j-cell j-right">
-            <div class="j-card glass-card ri" data-a="fade-left" data-d="0">
-              <span class="j-year">Now</span>
-              <div class="j-head"><span class="j-ico">📚</span><h3>Currently Learning Python Full Stack</h3></div>
-              <p>Expanding into backend development with Python, exploring AI integration, and growing toward full-stack development.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 7 — LEFT (future) -->
-        <div class="j-row">
-          <div class="j-cell j-left">
-            <div class="j-card glass-card j-future ri" data-a="fade-right" data-d="0">
-              <span class="j-year future-tag">Goal</span>
-              <div class="j-head"><span class="j-ico">🌟</span><h3>Full Stack Developer</h3></div>
-              <p>Working toward becoming a well-rounded full-stack developer capable of building end-to-end production applications.</p>
-            </div>
-          </div>
-          <div class="j-cell j-mid">
-            <div class="j-node j-node-future"><div class="j-pulse"></div></div>
-          </div>
-          <div class="j-cell j-right"></div>
-        </div>
-
-      </div><!-- /journey -->
     </section>
 
-    <!-- ── Contact ────────────────────────────────────────────── -->
-    <section class="section" id="contact">
-      <div class="sec-head">
-        <span class="sec-label ri" data-a="fade-up" data-d="0">GET IN TOUCH</span>
-        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">Let's Build Something Amazing</h2>
-      </div>
-
-      <div class="contact-wrap">
-
-        <div class="contact-left ri" data-a="fade-right" data-d="150">
-          <h3>Let's Connect</h3>
-          <p>Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open.</p>
-          <div class="soc-chips">
-            <a href="mailto:hameedinayathullah507@gmail.com"                           class="soc-chip" target="_blank" rel="noopener" id="soc-email">
-              <i class="fas fa-envelope"></i><span>Email</span>
-            </a>
-            <a href="https://github.com/hameedinayathullah507-stack"                   class="soc-chip" target="_blank" rel="noopener" id="soc-github">
-              <i class="fab fa-github"></i><span>GitHub</span>
-            </a>
-            <a href="https://www.linkedin.com/in/hameed-inayathullah-29a082357"        class="soc-chip" target="_blank" rel="noopener" id="soc-linkedin">
-              <i class="fab fa-linkedin"></i><span>LinkedIn</span>
-            </a>
-            <a href="https://www.instagram.com/_inaxaz_?igsh=MWloNXRkMHR5aGxlZA=="   class="soc-chip" target="_blank" rel="noopener" id="soc-ig">
-              <i class="fab fa-instagram"></i><span>Instagram</span>
-            </a>
-            <a href="https://wa.me/8270501495"                                         class="soc-chip" target="_blank" rel="noopener" id="soc-wa">
-              <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
-            </a>
-            <a href="https://www.facebook.com/share/1B2pCadaPV/"                      class="soc-chip" target="_blank" rel="noopener" id="soc-fb">
-              <i class="fab fa-facebook-f"></i><span>Facebook</span>
-            </a>
-          </div>
+    <!-- Section 7: Contact -->
+    <section class="section reveal" id="contact">
+      <h2 class="section-title">Let's Build Something Amazing Together</h2>
+      <div class="connect-card glass-card tilt-card">
+        <h3>Connect with me</h3>
+        <p>Feel free to reach out for collaborations or just a friendly chat.</p>
+        <div class="social-links">
+          <a href="mailto:hameedinayathullah507@gmail.com" class="social-link" target="_blank" title="Email"><i
+              class="fas fa-envelope"></i><span>Email</span></a>
+          <a href="https://github.com/hameedinayathullah507-stack" class="social-link" target="_blank" title="GitHub"><i
+              class="fab fa-github"></i><span>GitHub</span></a>
+          <a href="https://www.linkedin.com/in/hameed-inayathullah-29a082357" class="social-link" target="_blank"
+            title="LinkedIn"><i class="fab fa-linkedin"></i><span>LinkedIn</span></a>
+          <a href="https://www.instagram.com/_inaxaz_?igsh=MWloNXRkMHR5aGxlZA==" class="social-link" target="_blank"
+            title="Instagram"><i class="fab fa-instagram"></i><span>Instagram</span></a>
+          <a href="https://wa.me/8270501495" class="social-link" target="_blank" title="WhatsApp"><i
+              class="fab fa-whatsapp"></i><span>WhatsApp</span></a>
+          <a href="https://www.facebook.com/share/1B2pCadaPV/" class="social-link" target="_blank" title="Facebook"><i
+              class="fab fa-facebook-f"></i><span>Facebook</span></a>
         </div>
-
-        <div class="contact-right ri" data-a="fade-left" data-d="200">
-          <form class="contact-form glass-card" id="contact-form"
-                action="https://api.web3forms.com/submit" method="POST" novalidate>
-            <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
-            <input type="hidden" name="subject"    value="New Portfolio Contact">
-            <input type="checkbox" name="botcheck" style="display:none" tabindex="-1">
-
-            <div class="f-group">
-              <input type="text"  id="fn" name="name"    required placeholder=" " autocomplete="name">
-              <label for="fn">Your Name</label>
-            </div>
-            <div class="f-group">
-              <input type="email" id="fe" name="email"   required placeholder=" " autocomplete="email">
-              <label for="fe">Your Email</label>
-            </div>
-            <div class="f-group">
-              <textarea id="fm" name="message" rows="4"  required placeholder=" "></textarea>
-              <label for="fm">Your Message</label>
-            </div>
-
-            <button type="submit" class="mag-btn btn-p submit-btn" id="sub-btn">
-              <span class="sub-txt">Send Message</span>
-              <i class="fas fa-paper-plane sub-ico" aria-hidden="true"></i>
-            </button>
-            <div class="f-status" id="f-status" role="alert" aria-live="polite"></div>
-          </form>
-        </div>
-
       </div>
     </section>
 
   </main>
 
-  <!-- ══ Minimal Copyright ═══════════════════════════════════ -->
-  <div class="copyright">
-    <p>&copy; 2026 Hameed Inayathullah &mdash; Crafted with <span class="heart" aria-label="love">♥</span></p>
-  </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2026 Hameed Inayathullah. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="https://github.com/hameedinayathullah507-stack"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/hameed-inayathullah-29a082357"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
 
-  <!-- Scroll to Top -->
-  <button class="stt-btn" id="stt-btn" aria-label="Scroll to top">
-    <i class="fas fa-chevron-up" aria-hidden="true"></i>
-  </button>
-
+  <!-- Scripts -->
   <script type="module" src="./main.js"></script>
 </body>
+
 </html>

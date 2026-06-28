@@ -345,12 +345,12 @@ animate();
       return;
     }
 
-    // ── LERP INTERPOLATION ────────────────────────────────────
-    currentProgress     = lerp(currentProgress, targetProgress, 0.09);
-    currentExitProgress = lerp(currentExitProgress, targetExitProgress, 0.09);
+    // ── LERP INTERPOLATION (Responsive Apple/Linear fluid inertia) ──
+    currentProgress     = lerp(currentProgress, targetProgress, 0.14);
+    currentExitProgress = lerp(currentExitProgress, targetExitProgress, 0.14);
 
-    if (Math.abs(currentProgress - targetProgress) < 0.0003) currentProgress = targetProgress;
-    if (Math.abs(currentExitProgress - targetExitProgress) < 0.0003) currentExitProgress = targetExitProgress;
+    if (Math.abs(currentProgress - targetProgress) < 0.0001) currentProgress = targetProgress;
+    if (Math.abs(currentExitProgress - targetExitProgress) < 0.0001) currentExitProgress = targetExitProgress;
 
     const eased = smoothstep(currentProgress);
 

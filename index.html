@@ -1,150 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hameed Inayathullah — Frontend Developer</title>
-  <meta name="description" content="Portfolio of Hameed Inayathullah, a passionate Frontend Developer crafting immersive digital experiences with modern web technologies." />
-  <link rel="stylesheet" href="./style.css" />
+  <meta name="description" content="Portfolio of Hameed Inayathullah — Frontend Developer crafting immersive digital experiences with modern web technologies." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="./style.css" />
 </head>
-
 <body>
 
-  <!-- Background Layers -->
-  <div id="mouse-glow"></div>
-  <div class="aurora-bg">
+  <!-- ══ Background Layers ════════════════════════════════════ -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <div class="grid-overlay"  aria-hidden="true"></div>
+  <div id="mouse-glow"       aria-hidden="true"></div>
+  <div class="aurora-bg"     aria-hidden="true">
     <div class="aurora aurora-1"></div>
     <div class="aurora aurora-2"></div>
     <div class="aurora aurora-3"></div>
   </div>
-  <canvas id="bg-canvas"></canvas>
+  <canvas id="bg-canvas"    aria-hidden="true"></canvas>
 
-  <!-- ── Navigation ─────────────────────────────────────────── -->
+  <!-- ══ Navigation ══════════════════════════════════════════ -->
   <nav class="navbar" id="navbar">
-    <div class="nav-container">
+    <div class="nav-inner">
       <a href="#hero" class="nav-brand">
-        <span class="brand-dot"></span><span>HI</span>
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>HI</span>
       </a>
-      <div class="nav-links" id="nav-links">
-        <a href="#about"      class="nav-link" data-section="about">About</a>
-        <a href="#skills"     class="nav-link" data-section="skills">Skills</a>
-        <a href="#projects"   class="nav-link" data-section="projects">Projects</a>
-        <a href="#experience" class="nav-link" data-section="experience">Journey</a>
-        <a href="#contact"    class="nav-link" data-section="contact">Contact</a>
+      <div class="nav-links" id="nav-links" role="list">
+        <a href="#about"      class="nav-link" data-section="about"      role="listitem">About</a>
+        <a href="#skills"     class="nav-link" data-section="skills"     role="listitem">Skills</a>
+        <a href="#projects"   class="nav-link" data-section="projects"   role="listitem">Projects</a>
+        <a href="#experience" class="nav-link" data-section="experience" role="listitem">Journey</a>
+        <a href="#contact"    class="nav-link" data-section="contact"    role="listitem">Contact</a>
       </div>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-      <a href="#about"      class="mobile-link">About</a>
-      <a href="#skills"     class="mobile-link">Skills</a>
-      <a href="#projects"   class="mobile-link">Projects</a>
-      <a href="#experience" class="mobile-link">Journey</a>
-      <a href="#contact"    class="mobile-link">Contact</a>
+      <a href="#about"      class="mob-link">About</a>
+      <a href="#skills"     class="mob-link">Skills</a>
+      <a href="#projects"   class="mob-link">Projects</a>
+      <a href="#experience" class="mob-link">Journey</a>
+      <a href="#contact"    class="mob-link">Contact</a>
     </div>
   </nav>
 
-  <!-- ── Main Content ───────────────────────────────────────── -->
-  <main class="content-container">
+  <!-- ══ Main ═════════════════════════════════════════════════ -->
+  <main>
 
-    <!-- ── Hero ──────────────────────────────────────────────── -->
+    <!-- ── Hero ─────────────────────────────────────────────── -->
     <section class="section hero-section" id="hero">
-      <div class="hero-content">
+      <div class="hero-wrap">
 
         <div class="hero-text">
-          <p class="hero-greeting reveal-item" data-anim="fade-up" data-delay="0">Hello, I'm</p>
-          <h1 class="hero-name" id="hero-name">
-            <span class="word">Hameed</span>
-            <span class="word word-accent">Inayathullah</span>
+          <p class="hero-eyebrow ri" data-a="fade-up" data-d="0">Hello, I'm</p>
+
+          <h1 class="hero-name" id="hero-name" aria-label="Hameed Inayathullah">
+            <span class="hn-word">Hameed</span>
+            <span class="hn-word hn-accent">Inayathullah</span>
           </h1>
-          <h2 class="hero-role reveal-item" data-anim="fade-up" data-delay="500">
-            <span class="typing-text"></span><span class="cursor" aria-hidden="true"></span>
-          </h2>
-          <p class="hero-desc reveal-item" data-anim="fade-up" data-delay="700">
+
+          <p class="hero-role ri" data-a="fade-up" data-d="500">
+            <span class="typing-el" aria-live="polite"></span><span class="cursor" aria-hidden="true"></span>
+          </p>
+
+          <p class="hero-desc ri" data-a="fade-up" data-d="700">
             Frontend Developer crafting immersive digital experiences. Passionate about building modern web experiences with clean code and dynamic design.
           </p>
-          <div class="hero-btns reveal-item" data-anim="fade-up" data-delay="900">
-            <a href="#projects" class="magnetic-btn btn-primary" id="hero-cta-projects">
+
+          <div class="hero-actions ri" data-a="fade-up" data-d="900">
+            <a href="#projects" class="mag-btn btn-p" id="btn-projects">
               <span>View Projects</span>
               <i class="fas fa-arrow-right" aria-hidden="true"></i>
             </a>
-            <a href="#contact" class="magnetic-btn btn-secondary" id="hero-cta-contact">
+            <a href="#contact" class="mag-btn btn-s" id="btn-contact">
               <span>Contact Me</span>
             </a>
           </div>
         </div>
 
-        <div class="hero-img-container reveal-item" data-anim="fade-left" data-delay="200">
-          <div class="hero-img-wrapper">
-            <div class="ring ring-1" aria-hidden="true"></div>
-            <div class="ring ring-2" aria-hidden="true"></div>
-            <div class="ring ring-3" aria-hidden="true"></div>
-            <div class="hero-img-inner">
-              <img src="./portfolio.png" alt="Hameed Inayathullah" class="hero-person-img" loading="eager" />
+        <div class="hero-img-wrap ri" data-a="fade-left" data-d="200">
+          <div class="hero-frame">
+            <span class="h-ring h-ring-1" aria-hidden="true"></span>
+            <span class="h-ring h-ring-2" aria-hidden="true"></span>
+            <span class="h-ring h-ring-3" aria-hidden="true"></span>
+            <div class="h-photo">
+              <img src="./portfolio.png" alt="Hameed Inayathullah" loading="eager" />
             </div>
-            <div class="hero-img-glow" aria-hidden="true"></div>
+            <div class="h-glow" aria-hidden="true"></div>
           </div>
         </div>
 
       </div>
 
-      <!-- Scroll Indicator -->
-      <div class="scroll-indicator" aria-hidden="true">
-        <span class="scroll-label">Scroll</span>
-        <div class="scroll-track"><div class="scroll-dot"></div></div>
+      <div class="scroll-ind" aria-label="Scroll down">
+        <span class="si-text">Scroll</span>
+        <div class="si-track"><div class="si-dot"></div></div>
       </div>
     </section>
 
     <!-- ── About ─────────────────────────────────────────────── -->
-    <section class="section reveal-section" id="about">
-      <div class="section-header">
-        <span class="section-label reveal-item" data-anim="fade-up" data-delay="0">WHO I AM</span>
-        <h2 class="section-title reveal-item" data-anim="fade-up" data-delay="100">About Me</h2>
+    <section class="section" id="about">
+      <div class="sec-head">
+        <span class="sec-label ri" data-a="fade-up" data-d="0">WHO I AM</span>
+        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">About Me</h2>
       </div>
 
       <div class="about-grid">
 
-        <div class="about-img-col reveal-item" data-anim="fade-right" data-delay="200">
-          <div class="about-img-frame">
-            <div class="about-img-border"></div>
-            <img src="./portfolio.png" alt="Hameed Inayathullah" class="about-img" loading="lazy" />
+        <div class="about-img-col ri" data-a="clip-right" data-d="200">
+          <div class="about-frame">
+            <div class="about-border" aria-hidden="true"></div>
+            <img src="./portfolio.png" alt="Hameed Inayathullah" class="about-photo" loading="lazy" />
             <div class="about-badge">
               <i class="fas fa-code" aria-hidden="true"></i>
               <span>Frontend Developer</span>
             </div>
+            <div class="about-deco-dot d1" aria-hidden="true"></div>
+            <div class="about-deco-dot d2" aria-hidden="true"></div>
           </div>
         </div>
 
-        <div class="about-text-col">
-          <p class="about-intro reveal-item" data-anim="fade-up" data-delay="100">
-            I'm <strong>Hameed Inayathullah</strong> — a dedicated Computer Science student and self-driven Frontend Developer who turns ideas into interactive, visually compelling web experiences.
+        <div class="about-content">
+          <p class="about-lead ri" data-a="fade-up" data-d="100">
+            I'm <strong>Hameed Inayathullah</strong> — a dedicated Computer Science student and self-driven Frontend Developer who transforms ideas into interactive, visually compelling web experiences.
           </p>
-          <p class="about-body reveal-item" data-anim="fade-up" data-delay="200">
-            My journey started with curiosity about how beautiful websites are built. That curiosity turned into passion — and that passion has driven me to build real-world projects that combine clean code with stunning UI design.
+          <p class="about-body ri" data-a="fade-up" data-d="200">
+            My journey started with curiosity about how beautiful websites are built. That curiosity became a passion — and that passion drives me to build real-world projects that marry clean code with stunning UI design.
           </p>
-
-          <div class="about-specialties reveal-item" data-anim="fade-up" data-delay="300">
-            <h3>What I Specialise In</h3>
-            <ul>
+          <div class="about-spec ri" data-a="fade-up" data-d="300">
+            <h3 class="spec-label">What I Specialise In</h3>
+            <ul class="spec-list">
               <li><i class="fas fa-check-circle" aria-hidden="true"></i> Responsive Web Design &amp; Mobile-First Development</li>
-              <li><i class="fas fa-check-circle" aria-hidden="true"></i> Interactive UI with Smooth Animations</li>
-              <li><i class="fas fa-check-circle" aria-hidden="true"></i> Modern CSS: Glassmorphism, 3D Effects &amp; Motion</li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i> Interactive UI with Smooth Animations &amp; Motion</li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i> Modern CSS: Glassmorphism, 3D Effects &amp; Visual Polish</li>
               <li><i class="fas fa-check-circle" aria-hidden="true"></i> Clean, Semantic HTML &amp; Accessible Markup</li>
             </ul>
           </div>
-
-          <div class="about-goals reveal-item" data-anim="fade-up" data-delay="400">
-            <h3>Currently Learning</h3>
-            <div class="learning-tags">
+          <div class="about-goals ri" data-a="fade-up" data-d="400">
+            <h3 class="spec-label">Currently Learning</h3>
+            <div class="learn-chips">
               <span><i class="fab fa-python" aria-hidden="true"></i> Python Full Stack</span>
-              <span><i class="fas fa-robot" aria-hidden="true"></i> AI Integration</span>
+              <span><i class="fas fa-robot"  aria-hidden="true"></i> AI Integration</span>
               <span><i class="fas fa-database" aria-hidden="true"></i> Backend Basics</span>
             </div>
           </div>
@@ -154,78 +157,67 @@
     </section>
 
     <!-- ── Skills ─────────────────────────────────────────────── -->
-    <section class="section reveal-section" id="skills">
-      <div class="section-header">
-        <span class="section-label reveal-item" data-anim="fade-up" data-delay="0">EXPERTISE</span>
-        <h2 class="section-title reveal-item" data-anim="fade-up" data-delay="100">My Skills</h2>
+    <section class="section" id="skills">
+      <div class="sec-head">
+        <span class="sec-label ri" data-a="fade-up" data-d="0">EXPERTISE</span>
+        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">My Skills</h2>
       </div>
 
-      <div class="skills-container">
+      <div class="skills-wrap">
 
-        <div class="skill-group reveal-item" data-anim="fade-up" data-delay="100">
-          <h3 class="group-label"><i class="fas fa-code" aria-hidden="true"></i> Frontend</h3>
-          <div class="skills-row">
-            <div class="skill-card" data-color="#e34f26" id="skill-html">
-              <div class="skill-icon"><i class="fab fa-html5" aria-hidden="true"></i></div>
-              <span>HTML5</span>
+        <div class="skill-group ri" data-a="fade-up" data-d="100">
+          <p class="grp-label"><i class="fas fa-code" aria-hidden="true"></i> Frontend</p>
+          <div class="skill-row">
+            <div class="skill-card" data-color="#e34f26" id="sk-html">
+              <i class="fab fa-html5" aria-hidden="true"></i><span>HTML5</span>
             </div>
-            <div class="skill-card" data-color="#1572b6" id="skill-css">
-              <div class="skill-icon"><i class="fab fa-css3-alt" aria-hidden="true"></i></div>
-              <span>CSS3</span>
+            <div class="skill-card" data-color="#1572b6" id="sk-css">
+              <i class="fab fa-css3-alt" aria-hidden="true"></i><span>CSS3</span>
             </div>
-            <div class="skill-card" data-color="#f7df1e" id="skill-js">
-              <div class="skill-icon"><i class="fab fa-js" aria-hidden="true"></i></div>
-              <span>JavaScript</span>
+            <div class="skill-card" data-color="#f0db4f" id="sk-js">
+              <i class="fab fa-js" aria-hidden="true"></i><span>JavaScript</span>
             </div>
-            <div class="skill-card" data-color="#7952b3" id="skill-bootstrap">
-              <div class="skill-icon"><i class="fab fa-bootstrap" aria-hidden="true"></i></div>
-              <span>Bootstrap</span>
+            <div class="skill-card" data-color="#7952b3" id="sk-bs">
+              <i class="fab fa-bootstrap" aria-hidden="true"></i><span>Bootstrap</span>
             </div>
           </div>
         </div>
 
-        <div class="skill-group reveal-item" data-anim="fade-up" data-delay="200">
-          <h3 class="group-label"><i class="fas fa-terminal" aria-hidden="true"></i> Programming</h3>
-          <div class="skills-row">
-            <div class="skill-card" data-color="#3776ab" id="skill-python">
-              <div class="skill-icon"><i class="fab fa-python" aria-hidden="true"></i></div>
-              <span>Python</span>
+        <div class="skill-group ri" data-a="fade-up" data-d="200">
+          <p class="grp-label"><i class="fas fa-terminal" aria-hidden="true"></i> Programming</p>
+          <div class="skill-row">
+            <div class="skill-card" data-color="#3776ab" id="sk-py">
+              <i class="fab fa-python" aria-hidden="true"></i><span>Python</span>
             </div>
           </div>
         </div>
 
-        <div class="skill-group reveal-item" data-anim="fade-up" data-delay="300">
-          <h3 class="group-label"><i class="fas fa-tools" aria-hidden="true"></i> Tools</h3>
-          <div class="skills-row">
-            <div class="skill-card" data-color="#f05032" id="skill-git">
-              <div class="skill-icon"><i class="fab fa-git-alt" aria-hidden="true"></i></div>
-              <span>Git</span>
+        <div class="skill-group ri" data-a="fade-up" data-d="300">
+          <p class="grp-label"><i class="fas fa-tools" aria-hidden="true"></i> Tools</p>
+          <div class="skill-row">
+            <div class="skill-card" data-color="#f05032" id="sk-git">
+              <i class="fab fa-git-alt" aria-hidden="true"></i><span>Git</span>
             </div>
-            <div class="skill-card" data-color="#ffffff" id="skill-github">
-              <div class="skill-icon"><i class="fab fa-github" aria-hidden="true"></i></div>
-              <span>GitHub</span>
+            <div class="skill-card" data-color="#e8e8e8" id="sk-github">
+              <i class="fab fa-github" aria-hidden="true"></i><span>GitHub</span>
             </div>
-            <div class="skill-card" data-color="#007acc" id="skill-vscode">
-              <div class="skill-icon"><i class="fas fa-code" aria-hidden="true"></i></div>
-              <span>VS Code</span>
+            <div class="skill-card" data-color="#007acc" id="sk-vsc">
+              <i class="fas fa-code" aria-hidden="true"></i><span>VS Code</span>
             </div>
           </div>
         </div>
 
-        <div class="skill-group reveal-item" data-anim="fade-up" data-delay="400">
-          <h3 class="group-label"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Currently Learning</h3>
-          <div class="skills-row">
-            <div class="skill-card learning" data-color="#61dafb" id="skill-react">
-              <div class="skill-icon"><i class="fab fa-react" aria-hidden="true"></i></div>
-              <span>React</span>
+        <div class="skill-group ri" data-a="fade-up" data-d="400">
+          <p class="grp-label"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Currently Learning</p>
+          <div class="skill-row">
+            <div class="skill-card learning" data-color="#61dafb" id="sk-react">
+              <i class="fab fa-react" aria-hidden="true"></i><span>React</span>
             </div>
-            <div class="skill-card learning" data-color="#339933" id="skill-node">
-              <div class="skill-icon"><i class="fab fa-node-js" aria-hidden="true"></i></div>
-              <span>Node.js</span>
+            <div class="skill-card learning" data-color="#339933" id="sk-node">
+              <i class="fab fa-node-js" aria-hidden="true"></i><span>Node.js</span>
             </div>
-            <div class="skill-card learning" data-color="#a78bfa" id="skill-ai">
-              <div class="skill-icon"><i class="fas fa-robot" aria-hidden="true"></i></div>
-              <span>AI / ML</span>
+            <div class="skill-card learning" data-color="#a78bfa" id="sk-ai">
+              <i class="fas fa-robot" aria-hidden="true"></i><span>AI / ML</span>
             </div>
           </div>
         </div>
@@ -234,95 +226,75 @@
     </section>
 
     <!-- ── Projects ───────────────────────────────────────────── -->
-    <section class="section reveal-section" id="projects">
-      <div class="section-header">
-        <span class="section-label reveal-item" data-anim="fade-up" data-delay="0">PORTFOLIO</span>
-        <h2 class="section-title reveal-item" data-anim="fade-up" data-delay="100">Featured Projects</h2>
+    <section class="section" id="projects">
+      <div class="sec-head">
+        <span class="sec-label ri" data-a="fade-up" data-d="0">PORTFOLIO</span>
+        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">Featured Projects</h2>
       </div>
 
-      <div class="projects-grid">
+      <div class="proj-grid">
 
-        <article class="project-card reveal-item" data-anim="scale-in" data-delay="0" id="proj-carvilla">
-          <div class="project-image car-bg">
-            <div class="project-icon"><i class="fas fa-car" aria-hidden="true"></i></div>
-            <div class="project-overlay">
-              <a href="https://warm-druid-b6551a.netlify.app/" target="_blank" rel="noopener noreferrer" class="overlay-link" id="proj-carvilla-demo">
-                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Live Demo
-              </a>
-              <a href="https://github.com/hameedinayathullah507-stack/CARVILLA" target="_blank" rel="noopener noreferrer" class="overlay-link secondary" id="proj-carvilla-gh">
-                <i class="fab fa-github" aria-hidden="true"></i> GitHub
-              </a>
+        <article class="proj-card ri" data-a="scale-in" data-d="0" id="pc-carvilla">
+          <div class="pc-img car-bg">
+            <i class="fas fa-car" aria-hidden="true"></i>
+            <div class="pc-overlay">
+              <a href="https://warm-druid-b6551a.netlify.app/" target="_blank" rel="noopener noreferrer" class="ov-link" id="cv-demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+              <a href="https://github.com/hameedinayathullah507-stack/CARVILLA"    target="_blank" rel="noopener noreferrer" class="ov-link ov-gh"   id="cv-gh"  ><i class="fab fa-github"></i> GitHub</a>
             </div>
           </div>
-          <div class="project-body">
+          <div class="pc-body">
+            <span class="pc-cat">Web App</span>
             <h3>Carvilla</h3>
             <p>Interactive car booking website with responsive modern UI and smooth user experience.</p>
-            <div class="tech-stack">
-              <span>HTML</span><span>CSS</span><span>Bootstrap</span>
-            </div>
+            <div class="pc-tags"><span>HTML</span><span>CSS</span><span>Bootstrap</span></div>
           </div>
         </article>
 
-        <article class="project-card reveal-item" data-anim="scale-in" data-delay="100" id="proj-turf">
-          <div class="project-image turf-bg">
-            <div class="project-icon"><i class="fas fa-futbol" aria-hidden="true"></i></div>
-            <div class="project-overlay">
-              <a href="https://hameedinayathullah507-stack.github.io/playbook-turf/" target="_blank" rel="noopener noreferrer" class="overlay-link" id="proj-turf-demo">
-                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Live Demo
-              </a>
-              <a href="https://github.com/hameedinayathullah507-stack/playbook-turf" target="_blank" rel="noopener noreferrer" class="overlay-link secondary" id="proj-turf-gh">
-                <i class="fab fa-github" aria-hidden="true"></i> GitHub
-              </a>
+        <article class="proj-card ri" data-a="scale-in" data-d="120" id="pc-turf">
+          <div class="pc-img turf-bg">
+            <i class="fas fa-futbol" aria-hidden="true"></i>
+            <div class="pc-overlay">
+              <a href="https://hameedinayathullah507-stack.github.io/playbook-turf/" target="_blank" rel="noopener noreferrer" class="ov-link" id="tf-demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+              <a href="https://github.com/hameedinayathullah507-stack/playbook-turf"  target="_blank" rel="noopener noreferrer" class="ov-link ov-gh"   id="tf-gh"  ><i class="fab fa-github"></i> GitHub</a>
             </div>
           </div>
-          <div class="project-body">
+          <div class="pc-body">
+            <span class="pc-cat">Booking Platform</span>
             <h3>Playbook Turf</h3>
             <p>Sports turf booking platform with clean interface and fully responsive design.</p>
-            <div class="tech-stack">
-              <span>HTML</span><span>CSS</span><span>JavaScript</span>
-            </div>
+            <div class="pc-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
           </div>
         </article>
 
-        <article class="project-card reveal-item" data-anim="scale-in" data-delay="200" id="proj-student">
-          <div class="project-image student-bg">
-            <div class="project-icon"><i class="fas fa-users" aria-hidden="true"></i></div>
-            <div class="project-overlay">
-              <a href="https://hameedinayathullah507-stack.github.io/Student-Form/" target="_blank" rel="noopener noreferrer" class="overlay-link" id="proj-student-demo">
-                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Live Demo
-              </a>
-              <a href="https://github.com/hameedinayathullah507-stack/Student-Form" target="_blank" rel="noopener noreferrer" class="overlay-link secondary" id="proj-student-gh">
-                <i class="fab fa-github" aria-hidden="true"></i> GitHub
-              </a>
+        <article class="proj-card ri" data-a="scale-in" data-d="240" id="pc-student">
+          <div class="pc-img student-bg">
+            <i class="fas fa-users" aria-hidden="true"></i>
+            <div class="pc-overlay">
+              <a href="https://hameedinayathullah507-stack.github.io/Student-Form/" target="_blank" rel="noopener noreferrer" class="ov-link" id="sf-demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+              <a href="https://github.com/hameedinayathullah507-stack/Student-Form" target="_blank" rel="noopener noreferrer" class="ov-link ov-gh"   id="sf-gh"  ><i class="fab fa-github"></i> GitHub</a>
             </div>
           </div>
-          <div class="project-body">
+          <div class="pc-body">
+            <span class="pc-cat">Management System</span>
             <h3>Student Management</h3>
             <p>Student data management system focused on organisation and frontend functionality.</p>
-            <div class="tech-stack">
-              <span>HTML</span><span>CSS</span><span>JavaScript</span>
-            </div>
+            <div class="pc-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
           </div>
         </article>
 
-        <article class="project-card reveal-item" data-anim="scale-in" data-delay="300" id="proj-notes">
-          <div class="project-image notes-bg">
-            <div class="project-icon"><i class="fas fa-book" aria-hidden="true"></i></div>
-            <div class="project-overlay">
-              <a href="https://hameedinayathullah507-stack.github.io/Note-Wallet/" target="_blank" rel="noopener noreferrer" class="overlay-link" id="proj-notes-demo">
-                <i class="fas fa-external-link-alt" aria-hidden="true"></i> Live Demo
-              </a>
-              <a href="https://github.com/hameedinayathullah507-stack/Note-Wallet" target="_blank" rel="noopener noreferrer" class="overlay-link secondary" id="proj-notes-gh">
-                <i class="fab fa-github" aria-hidden="true"></i> GitHub
-              </a>
+        <article class="proj-card ri" data-a="scale-in" data-d="360" id="pc-notes">
+          <div class="pc-img notes-bg">
+            <i class="fas fa-book" aria-hidden="true"></i>
+            <div class="pc-overlay">
+              <a href="https://hameedinayathullah507-stack.github.io/Note-Wallet/" target="_blank" rel="noopener noreferrer" class="ov-link" id="nw-demo"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+              <a href="https://github.com/hameedinayathullah507-stack/Note-Wallet"  target="_blank" rel="noopener noreferrer" class="ov-link ov-gh"   id="nw-gh"  ><i class="fab fa-github"></i> GitHub</a>
             </div>
           </div>
-          <div class="project-body">
+          <div class="pc-body">
+            <span class="pc-cat">Productivity App</span>
             <h3>Note Wallet</h3>
             <p>Modern note management application with clean UI and organised workflow.</p>
-            <div class="tech-stack">
-              <span>HTML</span><span>CSS</span><span>JavaScript</span>
-            </div>
+            <div class="pc-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
           </div>
         </article>
 
@@ -330,180 +302,228 @@
     </section>
 
     <!-- ── AI Projects ────────────────────────────────────────── -->
-    <section class="section reveal-section" id="ai-projects">
-      <div class="section-header">
-        <span class="section-label reveal-item" data-anim="fade-up" data-delay="0">AI POWERED</span>
-        <h2 class="section-title reveal-item" data-anim="fade-up" data-delay="100">AI Projects</h2>
+    <section class="section" id="ai-projects">
+      <div class="sec-head">
+        <span class="sec-label ri" data-a="fade-up" data-d="0">AI POWERED</span>
+        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">AI Projects</h2>
       </div>
+      <div class="proj-grid">
 
-      <div class="projects-grid">
-
-        <article class="project-card ai-card reveal-item" data-anim="scale-in" data-delay="0" id="proj-chatbot">
-          <div class="project-image ai1-bg">
-            <div class="project-icon"><i class="fas fa-robot" aria-hidden="true"></i></div>
-            <div class="project-overlay">
-              <span class="overlay-link disabled">🚧 Coming Soon</span>
-              <span class="overlay-link secondary disabled"><i class="fab fa-github" aria-hidden="true"></i> Soon</span>
+        <article class="proj-card ri" data-a="scale-in" data-d="0" id="pc-chatbot">
+          <div class="pc-img ai1-bg">
+            <i class="fas fa-robot" aria-hidden="true"></i>
+            <div class="pc-overlay">
+              <span class="ov-link ov-disabled">🚧 Coming Soon</span>
+              <span class="ov-link ov-gh ov-disabled"><i class="fab fa-github"></i> Soon</span>
             </div>
           </div>
-          <div class="project-body">
+          <div class="pc-body">
+            <span class="pc-cat ai-cat">AI Project</span>
             <h3>AI Chatbot</h3>
             <p>An intelligent conversational chatbot powered by AI with real-time responses and a sleek modern interface.</p>
-            <div class="tech-stack">
-              <span>Python</span><span>AI/ML</span><span>HTML</span><span>CSS</span><span>JS</span>
-            </div>
+            <div class="pc-tags"><span>Python</span><span>AI/ML</span><span>HTML</span><span>JS</span></div>
           </div>
         </article>
 
-        <article class="project-card ai-card reveal-item" data-anim="scale-in" data-delay="100" id="proj-imggen">
-          <div class="project-image ai2-bg">
-            <div class="project-icon"><i class="fas fa-image" aria-hidden="true"></i></div>
-            <div class="project-overlay">
-              <span class="overlay-link disabled">🚧 Coming Soon</span>
-              <span class="overlay-link secondary disabled"><i class="fab fa-github" aria-hidden="true"></i> Soon</span>
+        <article class="proj-card ri" data-a="scale-in" data-d="150" id="pc-imggen">
+          <div class="pc-img ai2-bg">
+            <i class="fas fa-image" aria-hidden="true"></i>
+            <div class="pc-overlay">
+              <span class="ov-link ov-disabled">🚧 Coming Soon</span>
+              <span class="ov-link ov-gh ov-disabled"><i class="fab fa-github"></i> Soon</span>
             </div>
           </div>
-          <div class="project-body">
+          <div class="pc-body">
+            <span class="pc-cat ai-cat">AI Project</span>
             <h3>AI Image Generator</h3>
             <p>A creative AI-powered image generation tool that transforms text prompts into stunning visual art.</p>
-            <div class="tech-stack">
-              <span>Python</span><span>AI</span><span>API</span><span>JavaScript</span>
-            </div>
+            <div class="pc-tags"><span>Python</span><span>AI</span><span>API</span><span>JS</span></div>
           </div>
         </article>
 
       </div>
     </section>
 
-    <!-- ── Journey / Timeline ─────────────────────────────────── -->
-    <section class="section reveal-section" id="experience">
-      <div class="section-header">
-        <span class="section-label reveal-item" data-anim="fade-up" data-delay="0">MY PATH</span>
-        <h2 class="section-title reveal-item" data-anim="fade-up" data-delay="100">My Journey</h2>
+    <!-- ── Journey ────────────────────────────────────────────── -->
+    <section class="section" id="experience">
+      <div class="sec-head">
+        <span class="sec-label ri" data-a="fade-up" data-d="0">MY PATH</span>
+        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">My Journey</h2>
       </div>
 
-      <div class="timeline-wrap">
-        <div class="timeline-spine" aria-hidden="true"></div>
+      <div class="journey" id="journey">
+        <!-- Glowing spine -->
+        <div class="j-spine" aria-hidden="true">
+          <div class="j-spine-fill" id="j-fill"></div>
+        </div>
 
-        <div class="timeline-item reveal-item" data-anim="fade-right" data-delay="0">
-          <div class="timeline-marker" aria-hidden="true">🚀</div>
-          <div class="timeline-card glass-card">
-            <span class="tl-year">2022</span>
-            <h3>Started Web Development</h3>
-            <p>Took the first step into the world of web development, discovering my passion for creating things on the internet.</p>
+        <!-- 1 — LEFT -->
+        <div class="j-row">
+          <div class="j-cell j-left">
+            <div class="j-card glass-card ri" data-a="fade-right" data-d="0">
+              <span class="j-year">2022</span>
+              <div class="j-head"><span class="j-ico">🚀</span><h3>Started Web Development</h3></div>
+              <p>Took the first step into the world of web development, discovering my passion for creating things on the internet.</p>
+            </div>
+          </div>
+          <div class="j-cell j-mid">
+            <div class="j-node"><div class="j-pulse"></div></div>
+          </div>
+          <div class="j-cell j-right"></div>
+        </div>
+
+        <!-- 2 — RIGHT -->
+        <div class="j-row">
+          <div class="j-cell j-left"></div>
+          <div class="j-cell j-mid">
+            <div class="j-node"><div class="j-pulse"></div></div>
+          </div>
+          <div class="j-cell j-right">
+            <div class="j-card glass-card ri" data-a="fade-left" data-d="0">
+              <span class="j-year">2022</span>
+              <div class="j-head"><span class="j-ico">💡</span><h3>Learned HTML, CSS &amp; Responsive Design</h3></div>
+              <p>Mastered the core building blocks — semantic HTML5, modern CSS layouts, and mobile-first responsive design.</p>
+            </div>
           </div>
         </div>
 
-        <div class="timeline-item right reveal-item" data-anim="fade-left" data-delay="100">
-          <div class="timeline-marker" aria-hidden="true">💡</div>
-          <div class="timeline-card glass-card">
-            <span class="tl-year">2022</span>
-            <h3>Learned HTML, CSS &amp; Responsive Design</h3>
-            <p>Mastered the core building blocks — semantic HTML5, modern CSS layouts, and mobile-first responsive design.</p>
+        <!-- 3 — LEFT -->
+        <div class="j-row">
+          <div class="j-cell j-left">
+            <div class="j-card glass-card ri" data-a="fade-right" data-d="0">
+              <span class="j-year">2023</span>
+              <div class="j-head"><span class="j-ico">⚡</span><h3>Mastered Modern JavaScript (ES6+)</h3></div>
+              <p>Deepened JavaScript skills — ES6+ features, DOM manipulation, async/await, and interactive UI patterns.</p>
+            </div>
+          </div>
+          <div class="j-cell j-mid">
+            <div class="j-node"><div class="j-pulse"></div></div>
+          </div>
+          <div class="j-cell j-right"></div>
+        </div>
+
+        <!-- 4 — RIGHT -->
+        <div class="j-row">
+          <div class="j-cell j-left"></div>
+          <div class="j-cell j-mid">
+            <div class="j-node"><div class="j-pulse"></div></div>
+          </div>
+          <div class="j-cell j-right">
+            <div class="j-card glass-card ri" data-a="fade-left" data-d="0">
+              <span class="j-year">2023</span>
+              <div class="j-head"><span class="j-ico">🎨</span><h3>Focused on Frontend &amp; UI/UX Design</h3></div>
+              <p>Specialised in crafting premium interfaces — animations, glassmorphism, 3D effects, and immersive visual experiences.</p>
+            </div>
           </div>
         </div>
 
-        <div class="timeline-item reveal-item" data-anim="fade-right" data-delay="200">
-          <div class="timeline-marker" aria-hidden="true">⚡</div>
-          <div class="timeline-card glass-card">
-            <span class="tl-year">2023</span>
-            <h3>Mastered Modern JavaScript (ES6+)</h3>
-            <p>Deepened JavaScript skills — ES6+ features, DOM manipulation, async/await, and interactive UI patterns.</p>
+        <!-- 5 — LEFT -->
+        <div class="j-row">
+          <div class="j-cell j-left">
+            <div class="j-card glass-card ri" data-a="fade-right" data-d="0">
+              <span class="j-year">2024</span>
+              <div class="j-head"><span class="j-ico">📂</span><h3>Built Multiple Real-World Projects</h3></div>
+              <p>Designed and deployed real projects — Carvilla, Playbook Turf, Student Management System, and Note Wallet.</p>
+            </div>
+          </div>
+          <div class="j-cell j-mid">
+            <div class="j-node"><div class="j-pulse"></div></div>
+          </div>
+          <div class="j-cell j-right"></div>
+        </div>
+
+        <!-- 6 — RIGHT -->
+        <div class="j-row">
+          <div class="j-cell j-left"></div>
+          <div class="j-cell j-mid">
+            <div class="j-node active"><div class="j-pulse"></div></div>
+          </div>
+          <div class="j-cell j-right">
+            <div class="j-card glass-card ri" data-a="fade-left" data-d="0">
+              <span class="j-year">Now</span>
+              <div class="j-head"><span class="j-ico">📚</span><h3>Currently Learning Python Full Stack</h3></div>
+              <p>Expanding into backend development with Python, exploring AI integration, and growing toward full-stack development.</p>
+            </div>
           </div>
         </div>
 
-        <div class="timeline-item right reveal-item" data-anim="fade-left" data-delay="300">
-          <div class="timeline-marker" aria-hidden="true">🎨</div>
-          <div class="timeline-card glass-card">
-            <span class="tl-year">2023</span>
-            <h3>Focused on Frontend &amp; UI/UX</h3>
-            <p>Specialised in crafting premium interfaces — animations, glassmorphism, 3D effects, and immersive visual experiences.</p>
+        <!-- 7 — LEFT (future) -->
+        <div class="j-row">
+          <div class="j-cell j-left">
+            <div class="j-card glass-card j-future ri" data-a="fade-right" data-d="0">
+              <span class="j-year future-tag">Goal</span>
+              <div class="j-head"><span class="j-ico">🌟</span><h3>Full Stack Developer</h3></div>
+              <p>Working toward becoming a well-rounded full-stack developer capable of building end-to-end production applications.</p>
+            </div>
           </div>
+          <div class="j-cell j-mid">
+            <div class="j-node j-node-future"><div class="j-pulse"></div></div>
+          </div>
+          <div class="j-cell j-right"></div>
         </div>
 
-        <div class="timeline-item reveal-item" data-anim="fade-right" data-delay="400">
-          <div class="timeline-marker" aria-hidden="true">📂</div>
-          <div class="timeline-card glass-card">
-            <span class="tl-year">2024</span>
-            <h3>Built Multiple Real-World Projects</h3>
-            <p>Designed and deployed real-world projects — Carvilla, Playbook Turf, Student Management System, and Note Wallet.</p>
-          </div>
-        </div>
-
-        <div class="timeline-item right reveal-item" data-anim="fade-left" data-delay="500">
-          <div class="timeline-marker" aria-hidden="true">📚</div>
-          <div class="timeline-card glass-card">
-            <span class="tl-year">Now</span>
-            <h3>Currently Learning Python Full Stack</h3>
-            <p>Expanding into backend development with Python, exploring AI integration, and growing towards full-stack development.</p>
-          </div>
-        </div>
-
-      </div>
+      </div><!-- /journey -->
     </section>
 
     <!-- ── Contact ────────────────────────────────────────────── -->
-    <section class="section reveal-section" id="contact">
-      <div class="section-header">
-        <span class="section-label reveal-item" data-anim="fade-up" data-delay="0">GET IN TOUCH</span>
-        <h2 class="section-title reveal-item" data-anim="fade-up" data-delay="100">Let's Build Something Amazing</h2>
+    <section class="section" id="contact">
+      <div class="sec-head">
+        <span class="sec-label ri" data-a="fade-up" data-d="0">GET IN TOUCH</span>
+        <h2 class="sec-title split-target ri" data-a="fade-up" data-d="100">Let's Build Something Amazing</h2>
       </div>
 
       <div class="contact-wrap">
 
-        <div class="contact-info reveal-item" data-anim="fade-right" data-delay="150">
+        <div class="contact-left ri" data-a="fade-right" data-d="150">
           <h3>Let's Connect</h3>
           <p>Whether you have a project in mind, want to collaborate, or just want to say hi — my inbox is always open.</p>
-          <div class="contact-socials">
-            <a href="mailto:hameedinayathullah507@gmail.com" class="social-chip" target="_blank" rel="noopener" id="social-email">
-              <i class="fas fa-envelope" aria-hidden="true"></i><span>Email</span>
+          <div class="soc-chips">
+            <a href="mailto:hameedinayathullah507@gmail.com"                           class="soc-chip" target="_blank" rel="noopener" id="soc-email">
+              <i class="fas fa-envelope"></i><span>Email</span>
             </a>
-            <a href="https://github.com/hameedinayathullah507-stack" class="social-chip" target="_blank" rel="noopener" id="social-github">
-              <i class="fab fa-github" aria-hidden="true"></i><span>GitHub</span>
+            <a href="https://github.com/hameedinayathullah507-stack"                   class="soc-chip" target="_blank" rel="noopener" id="soc-github">
+              <i class="fab fa-github"></i><span>GitHub</span>
             </a>
-            <a href="https://www.linkedin.com/in/hameed-inayathullah-29a082357" class="social-chip" target="_blank" rel="noopener" id="social-linkedin">
-              <i class="fab fa-linkedin" aria-hidden="true"></i><span>LinkedIn</span>
+            <a href="https://www.linkedin.com/in/hameed-inayathullah-29a082357"        class="soc-chip" target="_blank" rel="noopener" id="soc-linkedin">
+              <i class="fab fa-linkedin"></i><span>LinkedIn</span>
             </a>
-            <a href="https://www.instagram.com/_inaxaz_?igsh=MWloNXRkMHR5aGxlZA==" class="social-chip" target="_blank" rel="noopener" id="social-instagram">
-              <i class="fab fa-instagram" aria-hidden="true"></i><span>Instagram</span>
+            <a href="https://www.instagram.com/_inaxaz_?igsh=MWloNXRkMHR5aGxlZA=="   class="soc-chip" target="_blank" rel="noopener" id="soc-ig">
+              <i class="fab fa-instagram"></i><span>Instagram</span>
             </a>
-            <a href="https://wa.me/8270501495" class="social-chip" target="_blank" rel="noopener" id="social-whatsapp">
-              <i class="fab fa-whatsapp" aria-hidden="true"></i><span>WhatsApp</span>
+            <a href="https://wa.me/8270501495"                                         class="soc-chip" target="_blank" rel="noopener" id="soc-wa">
+              <i class="fab fa-whatsapp"></i><span>WhatsApp</span>
             </a>
-            <a href="https://www.facebook.com/share/1B2pCadaPV/" class="social-chip" target="_blank" rel="noopener" id="social-facebook">
-              <i class="fab fa-facebook-f" aria-hidden="true"></i><span>Facebook</span>
+            <a href="https://www.facebook.com/share/1B2pCadaPV/"                      class="soc-chip" target="_blank" rel="noopener" id="soc-fb">
+              <i class="fab fa-facebook-f"></i><span>Facebook</span>
             </a>
           </div>
         </div>
 
-        <div class="contact-form-wrap reveal-item" data-anim="fade-left" data-delay="200">
+        <div class="contact-right ri" data-a="fade-left" data-d="200">
           <form class="contact-form glass-card" id="contact-form"
                 action="https://api.web3forms.com/submit" method="POST" novalidate>
             <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
-            <input type="hidden" name="subject" value="New Portfolio Contact">
-            <input type="checkbox" name="botcheck" style="display:none">
+            <input type="hidden" name="subject"    value="New Portfolio Contact">
+            <input type="checkbox" name="botcheck" style="display:none" tabindex="-1">
 
-            <div class="form-group">
-              <input type="text" id="f-name" name="name" required placeholder=" " autocomplete="name">
-              <label for="f-name">Your Name</label>
+            <div class="f-group">
+              <input type="text"  id="fn" name="name"    required placeholder=" " autocomplete="name">
+              <label for="fn">Your Name</label>
+            </div>
+            <div class="f-group">
+              <input type="email" id="fe" name="email"   required placeholder=" " autocomplete="email">
+              <label for="fe">Your Email</label>
+            </div>
+            <div class="f-group">
+              <textarea id="fm" name="message" rows="4"  required placeholder=" "></textarea>
+              <label for="fm">Your Message</label>
             </div>
 
-            <div class="form-group">
-              <input type="email" id="f-email" name="email" required placeholder=" " autocomplete="email">
-              <label for="f-email">Your Email</label>
-            </div>
-
-            <div class="form-group">
-              <textarea id="f-message" name="message" rows="4" required placeholder=" "></textarea>
-              <label for="f-message">Your Message</label>
-            </div>
-
-            <button type="submit" class="submit-btn magnetic-btn btn-primary" id="submit-btn">
-              <span class="btn-txt">Send Message</span>
-              <i class="fas fa-paper-plane btn-icon" aria-hidden="true"></i>
+            <button type="submit" class="mag-btn btn-p submit-btn" id="sub-btn">
+              <span class="sub-txt">Send Message</span>
+              <i class="fas fa-paper-plane sub-ico" aria-hidden="true"></i>
             </button>
-
-            <div class="form-status" id="form-status" role="alert" aria-live="polite"></div>
+            <div class="f-status" id="f-status" role="alert" aria-live="polite"></div>
           </form>
         </div>
 
@@ -512,28 +532,16 @@
 
   </main>
 
-  <!-- ── Footer ────────────────────────────────────────────────── -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="brand-dot"></span>
-        <span>Hameed Inayathullah</span>
-      </div>
-      <p class="footer-copy">&copy; 2026 &middot; Crafted with <span class="heart" aria-label="love">♥</span> &amp; lots of CSS</p>
-      <div class="footer-socials">
-        <a href="https://github.com/hameedinayathullah507-stack"                      target="_blank" rel="noopener" class="footer-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/hameed-inayathullah-29a082357"           target="_blank" rel="noopener" class="footer-icon" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-        <a href="mailto:hameedinayathullah507@gmail.com"                              class="footer-icon" aria-label="Email"><i class="fas fa-envelope"></i></a>
-      </div>
-    </div>
-  </footer>
+  <!-- ══ Minimal Copyright ═══════════════════════════════════ -->
+  <div class="copyright">
+    <p>&copy; 2026 Hameed Inayathullah &mdash; Crafted with <span class="heart" aria-label="love">♥</span></p>
+  </div>
 
   <!-- Scroll to Top -->
-  <button class="scroll-top-btn" id="scroll-top-btn" aria-label="Scroll to top">
+  <button class="stt-btn" id="stt-btn" aria-label="Scroll to top">
     <i class="fas fa-chevron-up" aria-hidden="true"></i>
   </button>
 
   <script type="module" src="./main.js"></script>
 </body>
-
 </html>
